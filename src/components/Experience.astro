@@ -1,0 +1,196 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+
+const experience = [
+  {
+    title: "Stagiaire Développeur Full-Stack",
+    company: "Projet de fin d'année — Réfrigérateur Intelligent (M1)",
+    description:
+      "Conception et réalisation complète d'une plateforme e-commerce : modélisation de la base de données, modules panier, commandes et administration produits.",
+    date: "2023 – 2024",
+    current: false,
+    tags: ["Flask", "Python", "PostgreSQL"],
+  },
+  {
+    title: "Stagiaire Développeur",
+    company: "Plateforme E-Commerce",
+    description:
+      "Conception et réalisation complète d'une plateforme e-commerce : modélisation de la base de données, modules panier, commandes et administration produits.",
+    date: "2023 – 2024",
+    current: false,
+    tags: ["Laravel", "PHP", "MongoDB"],
+  },
+
+   {
+    title: "projet Universitaire",
+    company: "Gestion de Pharmacie",
+    description:
+      "Conception et réalisation complète d'une Application mobile pour gérer stocks, ventes et dates de péremption des produits pharmaceutiques. Interface intuitive et notifications.",
+    date: "2023 – 2024",
+    current: false,
+    tags: ["Flutter", "Dart", "SQLite"],
+  },
+
+  {
+    title: "Développeur — Application Web de Streaming Musical",
+    company: "Projet universitaire M1",
+    description:
+      "Développement d'une application web de streaming musical avec upload de pistes, gestion de playlists, recherche et interface utilisateur responsive.",
+    date: "2022 – 2023",
+    current: false,
+    tags: ["Django", "Python", "PostgreSQL"],
+  },
+];
+
+const formation = [
+  {
+    title: "Master 2 — Informatique",
+    company: "École Nationale d'Informatique — Université Fianarantsoa",
+    description:
+      "Spécialisation en conception et déploiement de solutions full-stack avancées, optimisation des bases de données, cloud computing et orchestration avec Docker, Google Cloud et Kubernetes. Formation axée sur la recherche appliquée et l’innovation technologique.",
+    date: "2025 – 2026",
+    current: false,
+    tags: ["Master 2", "Informatique", "Cloud & DevOps", "Innovation"],
+  },
+
+  {
+    title: "Master 1 — Informatique",
+    company: "École Nationale d'Informatique — Université Fianarantsoa",
+    description:
+      "Approfondissement en développement full-stack, bases de données avancées, cloud computing et orchestration avec Docker, Google Cloud et Kubernetes. Formation axée sur la conception de solutions robustes et scalables.",
+    date: "2024 – 2025",
+    current: false,
+    tags: ["Master 1", "Informatique", "Cloud & DevOps"],
+  },
+  {
+    title: "Troisième année — Licence Professionnelle Informatique",
+    company: "École Nationale d'Informatique — Université Fianarantsoa",
+    description:
+      "Parcours Informatique Générale. Développement de projets full-stack, approfondissement en bases de données, réseaux et génie logiciel.",
+    date: "2023 – 2024",
+    current: false,
+    tags: ["Informatique Générale", "Licence Pro"],
+  },
+];
+---
+
+<div class="exp-layout">
+  <!-- Colonne Expérience -->
+  <div class="exp-col">
+    <div class="col-header">
+      <div class="col-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
+          <line x1="12" y1="12" x2="12" y2="16"></line>
+          <line x1="10" y1="14" x2="14" y2="14"></line>
+        </svg>
+      </div>
+      <h2 class="col-title">Expérience</h2>
+    </div>
+    <ol class="exp-list">
+      {
+        experience.map((item) => (
+          <li>
+            <ExperienceItem {...item} />
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <!-- Colonne Formation -->
+  <div class="exp-col">
+    <div class="col-header">
+      <div class="col-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+          <path d="M8 21h8M12 17v4"></path>
+        </svg>
+      </div>
+      <h2 class="col-title">Formation</h2>
+    </div>
+    <ol class="exp-list">
+      {
+        formation.map((item) => (
+          <li>
+            <ExperienceItem {...item} />
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</div>
+
+<style>
+  /* === Layout 2 colonnes === */
+  .exp-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .exp-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* === En-tête de colonne === */
+  .col-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .col-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    flex-shrink: 0;
+  }
+  :global(html.dark) .col-icon {
+    background: rgba(74, 222, 128, 0.08);
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.2);
+  }
+  .col-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  :global(html.dark) .col-title {
+    color: #f1f5f9;
+  }
+
+  /* === Liste === */
+  .exp-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 0.5rem;
+  }
+</style>

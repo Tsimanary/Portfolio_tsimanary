@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Réfrigérateur Intelligent",
+    "description": "Système full-stack permettant de connaître à distance le contenu de son réfrigérateur. API REST Flask pour interroger les stocks, alertes de péremption automatiques, suggestions de menus et génération de listes de courses. Interface web intégrée.",
+    "image": "/projects/frigo.png",
+    "tags": ["FLASK", "POSTGRESQL"],
+    "github": "https://github.com/Tsimanary/SmartFridze",
+    "link": "https://smartfridze.duckdns.org/"
+  },
+  {
+    "title": "Plateforme E-Commerce",
+    "description": "Application e-commerce complète avec gestion de produits, panier, commandes et espace d'administration. Base de données relationnelle optimisée, authentification sécurisée et interface responsive.",
+    "image": "/projects/ecommerce.png",
+    "tags": ["LARAVEL", "MongoDB"],
+    "github": "https://github.com/Tsimanary/App-E-Commerce",
+    "link": null
+  },
+  {
+    "title": "Application Web de Streaming Musical",
+    "description": "Plateforme de streaming musical avec upload de pistes audio, création et gestion de playlists, moteur de recherche et lecteur intégré. Interface utilisateur responsive et fluide.",
+    "image": "/projects/music.png",
+    "tags": ["DJANGO", "POSTGRESQL"],
+    "github": "https://github.com/ValerioFaleson/Music-sream",
+    "link": null
+  }
+ 
+]

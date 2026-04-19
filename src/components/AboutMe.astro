@@ -1,0 +1,401 @@
+---
+const personalImageAlt = "Andriniaina Bonheur TSIMANARY";
+---
+
+<article
+  class="flex flex-col gap-8 text-gray-700 dark:text-gray-300 md:flex-row md:items-start"
+>
+  <!-- Carte profil -->
+  <div class="flex-shrink-0 md:order-1">
+    <div class="profile-card">
+      <!-- Photo + nom -->
+      <div class="profile-left">
+        <div class="photo-wrapper">
+          <img
+            width="150"
+            height="190"
+            src="../public/projects/tsimanary.png"
+            alt={personalImageAlt}
+            class="profile-photo"
+            style="object-position: 50% 20%"
+          />
+          <div class="photo-overlay">
+            <p class="profile-name">TSIMANARY Andriniaina Bonheur</p>
+            <p class="profile-title">Full Stack Developer</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech stack + dispo + métriques -->
+      <div class="profile-right">
+        <div class="tech-stack-card">
+          <p class="tech-label">TECH STACK</p>
+          <div class="tech-list">
+            <span class="tech-item"
+              ><span class="tech-icon laravel-icon">○</span> Laravel</span
+            >
+            <span class="tech-item"
+              ><span class="tech-icon flutter-icon">◆</span> Flutter</span
+            >
+            <span class="tech-item"
+              ><span class="tech-icon react-icon">⚛</span> React</span
+            >
+            <span class="tech-item"
+              ><span class="tech-icon flask-icon">⚙</span> Flask</span
+            >
+          </div>
+        </div>
+
+        <div class="dispo-badge">
+          <span class="dispo-icon">⚡</span>
+          <span>Disponible</span>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-card metric-neutral">
+            <span class="metric-star">☆</span>
+            <div>
+              <p class="metric-value">3+</p>
+              <p class="metric-label">Projets livrés</p>
+            </div>
+          </div>
+          <div class="metric-card metric-accent">
+            <p class="metric-value-accent">2+</p>
+            <p class="metric-label-accent">ans exp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Texte -->
+  <div class="[&>p]:mb-4 [&>p>strong]:font-mono text-pretty md:order-2">
+    <p>
+      Développeur web & mobile passionné, je conçois et déploie des solutions
+      digitales robustes et évolutives en
+      <strong class="text-blue-500 dark:text-green-400 font-semibold">
+        Laravel, Flutter, Flask, React
+      </strong>. J'aime transformer les besoins métiers en applications
+      concrètes, avec un souci constant de performance, qualité et expérience
+      utilisateur.
+    </p>
+    <p>
+      Je maîtrise également les environnements modernes de déploiement et
+      d'orchestration avec
+      <strong class="text-blue-500 dark:text-green-400 font-semibold">
+        Docker, Google Cloud et Kubernetes
+      </strong>, ce qui me permet de livrer des solutions fiables et scalables.
+    </p>
+    <p>
+      Fort de mes projets réalisés en e‑commerce, streaming musical et systèmes
+      intelligents, je suis prêt à contribuer efficacement au succès d'une
+      équipe ambitieuse et à livrer des résultats tangibles dès mon intégration.
+    </p>
+    <p>
+      Je suis motivé à rejoindre une équipe ambitieuse pour une embauche.
+      N'hésitez pas à
+      <a href="#contact" class="hover:underline">
+        me contacter
+      </a>
+      pour échanger.
+    </p>
+  </div>
+</article>
+
+<style>
+  /* =====================
+     CARTE PRINCIPALE
+  ===================== */
+  .profile-card {
+    display: flex;
+    gap: 1rem;
+    border-radius: 20px;
+    padding: 1.25rem;
+    width: fit-content;
+
+    /* Mode clair : blanc avec bordure bleue subtile */
+    background: #ffffff;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 32px -8px rgba(59, 130, 246, 0.12);
+  }
+  html.dark .profile-card {
+    /* Mode sombre : bleu nuit foncé comme l'image */
+    background: #111827;
+    border: 1px solid rgba(74, 222, 128, 0.15);
+    box-shadow: 0 8px 32px -8px rgba(74, 222, 128, 0.1);
+  }
+
+  /* =====================
+     PHOTO
+  ===================== */
+  .profile-left {
+    flex-shrink: 0;
+  }
+
+  .photo-wrapper {
+    width: 150px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(59, 130, 246, 0.15);
+  }
+  html.dark .photo-wrapper {
+    border-color: rgba(74, 222, 128, 0.1);
+  }
+
+  .profile-photo {
+    width: 150px;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-overlay {
+    padding: 8px 10px 10px;
+    /* clair : blanc */
+    background: #f8fafc;
+    border-top: 1px solid rgba(59, 130, 246, 0.1);
+  }
+  html.dark .photo-overlay {
+    background: #111827;
+    border-top-color: rgba(74, 222, 128, 0.08);
+  }
+
+  .profile-name {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin: 0;
+    /* clair : gris foncé */
+    color: #1e293b;
+  }
+  html.dark .profile-name {
+    color: #f9fafb;
+  }
+
+  .profile-title {
+    font-size: 11px;
+    margin: 2px 0 0;
+    font-weight: 600;
+    color: #2563eb;
+  }
+  html.dark .profile-title {
+    color: #4ade80;
+  }
+
+  /* =====================
+     COLONNE DROITE
+  ===================== */
+  .profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 160px;
+  }
+
+  /* Tech stack card */
+  .tech-stack-card {
+    border-radius: 12px;
+    padding: 10px 12px;
+    /* clair : gris très clair */
+    background: #f1f5f9;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+  }
+  html.dark .tech-stack-card {
+    background: #1f2937;
+    border-color: rgba(74, 222, 128, 0.08);
+  }
+
+  .tech-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 0 0 8px;
+    color: #64748b;
+  }
+  html.dark .tech-label {
+    color: #9ca3af;
+  }
+
+  .tech-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .tech-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1e293b;
+  }
+  html.dark .tech-item {
+    color: #f3f4f6;
+  }
+
+  .tech-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+  .laravel-icon {
+    background: #ff2d20;
+    color: #fff;
+    border-radius: 50%;
+  }
+  .flutter-icon {
+    background: #0553b1;
+    color: #54c5f8;
+  }
+  .react-icon {
+    background: #20232a;
+    color: #61dafb;
+  }
+  .flask-icon {
+    background: #2b2d42;
+    color: #ffd43b;
+  }
+
+  /* Badge dispo */
+  .dispo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 20px;
+    padding: 5px 12px;
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 600;
+    /* clair : bleu */
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+    border: 1px solid rgba(37, 99, 235, 0.2);
+  }
+  html.dark .dispo-badge {
+    background: rgba(74, 222, 128, 0.1);
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.2);
+  }
+
+  .dispo-icon {
+    font-size: 13px;
+    color: #2563eb;
+  }
+  html.dark .dispo-icon {
+    color: #4ade80;
+  }
+
+  /* Métriques */
+  .metrics-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .metric-card {
+    flex: 1;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Carte gauche (projets) */
+  .metric-neutral {
+    background: #f1f5f9;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+  }
+  html.dark .metric-neutral {
+    background: #1f2937;
+    border-color: rgba(74, 222, 128, 0.08);
+  }
+
+  /* Carte droite (ans exp.) — bleue en clair, verte en sombre */
+  .metric-accent {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    /* clair : bleu */
+    background: #2563eb;
+  }
+  html.dark .metric-accent {
+    /* sombre : vert */
+    background: #4ade80;
+  }
+
+  .metric-star {
+    font-size: 14px;
+    color: #2563eb;
+  }
+  html.dark .metric-star {
+    color: #4ade80;
+  }
+
+  .metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: #1e293b;
+  }
+  html.dark .metric-value {
+    color: #f9fafb;
+  }
+
+  .metric-label {
+    font-size: 9px;
+    margin: 0;
+    color: #64748b;
+  }
+  html.dark .metric-label {
+    color: #9ca3af;
+  }
+
+  /* Valeur dans la carte accent */
+  .metric-value-accent {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+    /* clair : blanc sur bleu */
+    color: #ffffff;
+  }
+  html.dark .metric-value-accent {
+    /* sombre : vert foncé sur vert clair */
+    color: #14532d;
+  }
+
+  .metric-label-accent {
+    font-size: 9px;
+    margin: 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  html.dark .metric-label-accent {
+    color: #166534;
+  }
+
+  /* =====================
+     TEXTE & LIENS
+  ===================== */
+  article a {
+    color: #2563eb;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  html.dark article a {
+    color: #8bfa9d;
+  }
+
+  article p strong {
+    color: #2563eb;
+  }
+  html.dark article p strong {
+    color: #b5fdc7;
+  }
+</style>

@@ -1,0 +1,234 @@
+---
+interface Props {
+  title: string;
+  company: string;
+  description: string;
+  link?: string;
+  date: string;
+  current?: boolean;
+  tags?: string[];
+}
+
+const {
+  title,
+  company,
+  description,
+  link,
+  date,
+  current = false,
+  tags = [],
+} = Astro.props;
+---
+
+<div class="exp-wrapper">
+  <!-- Dot timeline -->
+  <span class="timeline-dot" aria-hidden="true">
+    {current && <span class="timeline-ping" />}
+  </span>
+
+  <!-- Carte -->
+  <div class="exp-card">
+    <!-- En-tête : titre + date -->
+    <div class="exp-header">
+      <h3 class="exp-title">{title}</h3>
+      <span class="exp-date">{date}</span>
+    </div>
+
+    <!-- Entreprise / organisation -->
+    <p class="exp-company">{company}</p>
+
+    <!-- Description -->
+    <p class="exp-desc">{description}</p>
+
+    <!-- Tags optionnels -->
+    {tags.length > 0 && (
+      <ul class="exp-tags">
+        {tags.map((tag) => (
+          <li class="exp-tag">{tag}</li>
+        ))}
+      </ul>
+    )}
+
+    {link && (
+      <a href={link} target="_blank" rel="noopener noreferrer" class="exp-link">
+        En savoir plus →
+      </a>
+    )}
+  </div>
+</div>
+
+<style>
+  /* === Wrapper avec ligne verticale === */
+  .exp-wrapper {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 1.5rem;
+  }
+  .exp-wrapper::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 14px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(59, 130, 246, 0.25);
+    border-radius: 2px;
+  }
+  :global(html.dark) .exp-wrapper::before {
+    background: rgba(74, 222, 128, 0.2);
+  }
+
+  /* === Dot === */
+  .timeline-dot {
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  :global(html.dark) .timeline-dot {
+    background: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+  }
+  .timeline-ping {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.4);
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  :global(html.dark) .timeline-ping {
+    background: rgba(74, 222, 128, 0.35);
+  }
+  @keyframes ping {
+    75%, 100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  /* === Carte === */
+  .exp-card {
+    background: #f8fafc;
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    backdrop-filter: blur(6px);
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .exp-card:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 32px -8px rgba(59, 130, 246, 0.18);
+  }
+  :global(html.dark) .exp-card {
+   background: #0f172a;
+    border-color: rgba(74, 222, 128, 0.12);
+  }
+  :global(html.dark) .exp-card:hover {
+    border-color: rgba(74, 222, 128, 0.35);
+    box-shadow: 0 8px 32px -8px rgba(74, 222, 128, 0.18);
+  }
+
+  /* === En-tête === */
+  .exp-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  /* === Titre === */
+  .exp-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1d4ed8;
+    margin: 0;
+    line-height: 1.4;
+  }
+  :global(html.dark) .exp-title {
+    color: #4ade80;
+  }
+
+  /* === Date === */
+  .exp-date {
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    flex-shrink: 0;
+  }
+  :global(html.dark) .exp-date {
+    background: rgba(74, 222, 128, 0.08);
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.2);
+  }
+
+  /* === Entreprise === */
+  .exp-company {
+    font-size: 13px;
+    font-weight: 600;
+    color: #3b82f6;
+    margin: 0;
+  }
+  :global(html.dark) .exp-company {
+    color: #86efac;
+  }
+
+  /* === Description === */
+  .exp-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0.2rem 0 0;
+  }
+  :global(html.dark) .exp-desc {
+    color: #94a3b8;
+  }
+
+  /* === Tags === */
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0;
+  }
+  .exp-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 9px;
+    border-radius: 6px;
+    background: rgba(59, 130, 246, 0.08);
+    color: #2563eb;
+    border: 1px solid rgba(59, 130, 246, 0.18);
+  }
+  :global(html.dark) .exp-tag {
+    background: rgba(74, 222, 128, 0.07);
+    color: #86efac;
+    border-color: rgba(74, 222, 128, 0.2);
+  }
+
+  /* === Lien === */
+  .exp-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: #3b82f6;
+    text-decoration: none;
+    margin-top: 0.25rem;
+    transition: opacity 0.2s;
+  }
+  .exp-link:hover { opacity: 0.7; }
+  :global(html.dark) .exp-link { color: #4ade80; }
+</style>

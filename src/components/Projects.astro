@@ -1,0 +1,314 @@
+---
+import ExternalLink from "./icons/ExternalLink.astro";
+import GitHub from "./icons/GitHub.astro";
+import projectsData from "@/data/projects.json";
+
+const TAGS: Record<string, { name: string; class: string }> = {
+  LARAVEL:    { name: "Laravel",     class: "tag-laravel" },
+  FLASK:      { name: "Flask",       class: "tag-flask" },
+  DJANGO:     { name: "Django",      class: "tag-django" },
+  MongoDB:    { name: "MongoDB",     class: "tag-mongo" },
+  FLUTTER:    { name: "Flutter",     class: "tag-flutter" },
+  POSTGRESQL: { name: "PostgreSQL",  class: "tag-postgres" },
+  MYSQL:      { name: "MySQL",       class: "tag-mysql" },
+  PHP:        { name: "PHP",         class: "tag-php" },
+  REACT:      { name: "React",       class: "tag-react" },
+  NODEJS:     { name: "Node.js",     class: "tag-node" },
+};
+
+// Catégorie auto selon les tags
+function getCategory(tags: string[]): string {
+  if (tags.includes("LARAVEL") || tags.includes("DJANGO") || tags.includes("FLASK")) {
+    if (tags.includes("FLUTTER")) return "Mobile";
+    return "Web App";
+  }
+  if (tags.includes("FLUTTER")) return "Mobile";
+  return "Projet";
+}
+
+// Icône principale de la carte selon le premier tag
+const CARD_ICONS: Record<string, string> = {
+  LARAVEL:    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`,
+  FLASK:      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M9 3h6m-3 0v6l-4 9a1 1 0 0 0 .9 1.5h10.2a1 1 0 0 0 .9-1.5L15 9V3"/></svg>`,
+  DJANGO:     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>`,
+  MongoDB:    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M12 2C8 6 6 10 6 14a6 6 0 0 0 12 0c0-4-2-8-6-12z"/></svg>`,
+  FLUTTER:    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M4 4l8 8-8 8M12 4l8 8-8 8"/></svg>`,
+  DEFAULT:    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9l6 6M15 9l-6 6"/></svg>`,
+};
+
+const PROJECTS = projectsData.map((project) => ({
+  ...project,
+  tagsData: project.tags.map(
+    (key) => ({ ...(TAGS[key] ?? { name: key, class: "tag-default" }), key })
+  ),
+  category: getCategory(project.tags),
+  cardIcon: CARD_ICONS[project.tags[0]] ?? CARD_ICONS.DEFAULT,
+  hostname: project.link ? new URL(project.link).hostname : null,
+}));
+---
+
+<div class="projects-grid">
+  {PROJECTS.map(({ title, description, tagsData, link, github, category, cardIcon, hostname }) => (
+    <article class="project-card">
+      <!-- En-tête : icône + badge statut -->
+      <div class="card-header">
+        <div class="card-icon" set:html={cardIcon} />
+        <div class="card-badge">
+          <span class="badge-dot" />
+          Live
+          <span class="badge-category">{category}</span>
+        </div>
+      </div>
+
+      <!-- Titre + URL -->
+      <h3 class="card-title">{title}</h3>
+      {hostname && (
+        <a href={link} target="_blank" rel="noopener noreferrer" class="card-url">
+          {hostname}
+        </a>
+      )}
+
+      <!-- Description -->
+      <p class="card-desc">{description}</p>
+
+      <!-- Tags -->
+      <ul class="card-tags">
+        {tagsData.map((tag) => (
+          <li>
+            <span class={`tag ${tag.class}`}>{tag.name}</span>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Liens -->
+      <footer class="card-footer">
+        {github && (
+          <a href={github} target="_blank" rel="noopener noreferrer" class="card-link">
+            <GitHub class="size-4" />
+            GitHub
+          </a>
+        )}
+        {link && (
+          <a href={link} target="_blank" rel="noopener noreferrer" class="card-link card-link-primary">
+            <ExternalLink class="size-4" />
+            Voir le projet
+          </a>
+        )}
+      </footer>
+    </article>
+  ))}
+</div>
+
+<style>
+  /* === Grille === */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* === Carte === */
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.25rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: #0f172a;
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  }
+  .project-card:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Mode clair */
+  :global(html:not(.dark)) .project-card {
+    background: #f8fafc;
+    border-color: rgba(59,130,246,0.15);
+  }
+  :global(html:not(.dark)) .project-card:hover {
+    border-color: rgba(59,130,246,0.4);
+    box-shadow: 0 16px 48px -8px rgba(59,130,246,0.2);
+  }
+
+  /* Mode sombre */
+  :global(html.dark) .project-card {
+    background: #0f172a;
+    border-color: rgba(255,255,255,0.06);
+  }
+  :global(html.dark) .project-card:hover {
+    border-color: rgba(34,197,94,0.3);
+    box-shadow: 0 16px 48px -8px rgba(34,197,94,0.2);
+  }
+
+  /* === En-tête === */
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Icône carte */
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    color: #94a3b8;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  :global(html:not(.dark)) .card-icon {
+    background: rgba(59,130,246,0.08);
+    color: #3b82f6;
+    border-color: rgba(59,130,246,0.15);
+  }
+  :global(html.dark) .card-icon {
+    background: rgba(34,197,94,0.08);
+    color: #4ade80;
+    border-color: rgba(34,197,94,0.15);
+  }
+
+  /* Badge statut */
+  .card-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .badge-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    margin-bottom: 2px;
+    box-shadow: 0 0 6px rgba(34,197,94,0.6);
+  }
+  :global(html:not(.dark)) .card-badge {
+    color: #3b82f6;
+  }
+  :global(html.dark) .card-badge {
+    color: #4ade80;
+  }
+  .badge-category {
+    font-size: 10px;
+    font-weight: 500;
+    color: #64748b;
+  }
+  :global(html.dark) .badge-category {
+    color: #475569;
+  }
+
+  /* === Titre === */
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  :global(html.dark) .card-title {
+    color: #f1f5f9;
+  }
+
+  /* === URL === */
+  .card-url {
+    font-size: 12px;
+    font-family: monospace;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .card-url:hover { opacity: 0.8; }
+  :global(html:not(.dark)) .card-url {
+    color: #3b82f6;
+  }
+  :global(html.dark) .card-url {
+    color: #4ade80;
+  }
+
+  /* === Description === */
+  .card-desc {
+    font-size: 13.5px;
+    line-height: 1.6;
+    flex: 1;
+    margin: 0;
+  }
+  :global(html:not(.dark)) .card-desc { color: #475569; }
+  :global(html.dark) .card-desc       { color: #94a3b8; }
+
+  /* === Tags === */
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+  }
+
+  /* Couleurs des tags — mode clair */
+  :global(html:not(.dark)) .tag-laravel   { background:#fee2e2; color:#991b1b; border-color:#fca5a5; }
+  :global(html:not(.dark)) .tag-flask     { background:#ecfdf5; color:#065f46; border-color:#6ee7b7; }
+  :global(html:not(.dark)) .tag-django    { background:#f0fdf4; color:#166534; border-color:#86efac; }
+  :global(html:not(.dark)) .tag-mongo     { background:#f0fdf4; color:#14532d; border-color:#86efac; }
+  :global(html:not(.dark)) .tag-flutter   { background:#eff6ff; color:#1d4ed8; border-color:#93c5fd; }
+  :global(html:not(.dark)) .tag-postgres  { background:#eff6ff; color:#1e40af; border-color:#93c5fd; }
+  :global(html:not(.dark)) .tag-mysql     { background:#fff7ed; color:#9a3412; border-color:#fdba74; }
+  :global(html:not(.dark)) .tag-php       { background:#eef2ff; color:#3730a3; border-color:#a5b4fc; }
+  :global(html:not(.dark)) .tag-react     { background:#ecfeff; color:#155e75; border-color:#67e8f9; }
+  :global(html:not(.dark)) .tag-node      { background:#f0fdf4; color:#166534; border-color:#86efac; }
+  :global(html:not(.dark)) .tag-default   { background:#f1f5f9; color:#475569; border-color:#cbd5e1; }
+
+  /* Couleurs des tags — mode sombre */
+  :global(html.dark) .tag-laravel   { background:rgba(153,27,27,0.3);  color:#fca5a5; border-color:rgba(239,68,68,0.3); }
+  :global(html.dark) .tag-flask     { background:rgba(6,78,59,0.3);    color:#6ee7b7; border-color:rgba(52,211,153,0.3); }
+  :global(html.dark) .tag-django    { background:rgba(20,83,45,0.3);   color:#86efac; border-color:rgba(74,222,128,0.3); }
+  :global(html.dark) .tag-mongo     { background:rgba(20,83,45,0.3);   color:#86efac; border-color:rgba(74,222,128,0.3); }
+  :global(html.dark) .tag-flutter   { background:rgba(29,78,216,0.3);  color:#93c5fd; border-color:rgba(96,165,250,0.3); }
+  :global(html.dark) .tag-postgres  { background:rgba(30,58,138,0.3);  color:#93c5fd; border-color:rgba(96,165,250,0.3); }
+  :global(html.dark) .tag-mysql     { background:rgba(154,52,18,0.3);  color:#fdba74; border-color:rgba(251,146,60,0.3); }
+  :global(html.dark) .tag-php       { background:rgba(55,48,163,0.3);  color:#a5b4fc; border-color:rgba(129,140,248,0.3); }
+  :global(html.dark) .tag-react     { background:rgba(21,94,117,0.3);  color:#67e8f9; border-color:rgba(34,211,238,0.3); }
+  :global(html.dark) .tag-node      { background:rgba(20,83,45,0.3);   color:#86efac; border-color:rgba(74,222,128,0.3); }
+  :global(html.dark) .tag-default   { background:rgba(51,65,85,0.5);   color:#94a3b8; border-color:rgba(100,116,139,0.3); }
+
+  /* === Footer liens === */
+  .card-footer {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  :global(html:not(.dark)) .card-footer {
+    border-top-color: rgba(0,0,0,0.06);
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 4px 0;
+    transition: opacity 0.2s;
+  }
+  .card-link:hover { opacity: 0.7; }
+  :global(html:not(.dark)) .card-link         { color: #64748b; }
+  :global(html:not(.dark)) .card-link-primary  { color: #3b82f6; }
+  :global(html.dark) .card-link               { color: #64748b; }
+  :global(html.dark) .card-link-primary        { color: #4ade80; }
+</style>

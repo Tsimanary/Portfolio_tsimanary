@@ -1,0 +1,63 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AboutMe from "@/components/AboutMe.astro";
+import Briefcase from "@/components/icons/Briefcase.astro";
+import Experience from "@/components/Experience.astro";
+import UserHeart from "@/components/icons/UserHeart.astro";
+import Projects from "@/components/Projects.astro";
+import Contact from "@/components/Contact.astro";
+import SectionContainer from "@/components/SectionContainer.astro";
+import Hero from "@/components/Hero.astro";
+import TitleSection from "@/components/TitleSection.astro";
+---
+<Layout
+  title="Portfolio de TSIMANARY — Développeur Web & Mobile"
+  description="Développeur Full-Stack spécialisé en Laravel, Flutter, Flask et React. Découvrez mon parcours, mes projets et comment me contacter."
+>
+  <main class="px-4">
+    <SectionContainer class="py-16 md:py-36">
+      <Hero />
+    </SectionContainer>
+
+    <div class="space-y-24">
+
+      <SectionContainer id="experience">
+        <TitleSection>
+          <Briefcase class="size-8 text-[#4fdf8a] text-3xl font-bold" />
+          <span class="text-black dark:text-white">
+            Expérience professionnelle et Formation
+          </span>
+        </TitleSection>
+        <Experience />
+      </SectionContainer>
+
+      <SectionContainer id="projets">
+        <TitleSection>
+          <span class="text-blue-500 dark:text-green-400 text-3xl font-bold">&lt;/&gt;</span>
+          Projets
+        </TitleSection>
+        <Projects />
+      </SectionContainer>
+
+      <SectionContainer id="about-me">
+        <TitleSection>
+          <UserHeart class="size-8 text-[#4fdf8a] text-3xl font-bold" />
+          <span class="text-black dark:text-white">Sur moi</span>
+        </TitleSection>
+        <AboutMe />
+      </SectionContainer>
+
+      <!-- Section Contact avant le footer -->
+      <SectionContainer id="contact">
+        <TitleSection>
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-8 text-blue-500 dark:text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/>
+          </svg>
+          <span class="text-black dark:text-white">Contact</span>
+        </TitleSection>
+        <Contact />
+      </SectionContainer>
+
+    </div>
+  </main>
+</Layout>

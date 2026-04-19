@@ -1,0 +1,379 @@
+---
+const personalImageAlt = "TSIMANARY Andriniaina Bonheur";
+import Badge from "@/components/Badge.astro";
+import GitHubIcon from "@/components/icons/GitHub.astro";
+import LinkedInIcon from "@/components/icons/LinkedIn.astro";
+import MailIcon from "@/components/icons/Mail.astro";
+import SparklesIcon from "@/components/icons/Sparkles.astro";
+import SocialPill from "@/components/SocialPill.astro";
+
+const techs = [
+  {
+    name: "Laravel",
+    color: "#FF2D20",
+    colorLight: "#FF2D20",
+    bgDark: "#3f0a07",
+    bgLight: "#fff0ef",
+    svg: '<svg viewBox="0 0 50 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M49.626 11.564a.809.809 0 0 1 .028.209v10.972a.8.8 0 0 1-.402.694l-9.209 5.302V39.25c0 .286-.152.55-.4.694L20.42 51.01a.814.814 0 0 1-.114.044c-.012.003-.023.01-.035.013a.808.808 0 0 1-.41 0c-.014-.004-.027-.011-.041-.016a.81.81 0 0 1-.109-.04L.402 39.944A.801.801 0 0 1 0 39.25V6.334c0-.072.01-.143.028-.209.006-.02.018-.037.026-.057.012-.029.021-.059.037-.086.012-.02.028-.036.042-.054.018-.023.035-.047.057-.067.02-.019.043-.033.066-.05.023-.016.045-.035.07-.048.015-.008.031-.01.046-.017.02-.01.04-.02.062-.027L10.28.906c.207-.12.46-.12.667 0l9.2 5.308h.001c.025.014.049.033.073.05l.065.048c.022.02.04.045.059.068.015.019.03.035.042.056.016.027.026.057.037.086.008.02.02.038.026.058a.809.809 0 0 1 .028.209v20.8l8.008-4.616V11.773a.809.809 0 0 1 .028-.209c.006-.02.018-.038.026-.058.011-.029.021-.059.037-.086.012-.02.028-.037.042-.056.019-.023.037-.047.059-.068l.065-.048c.024-.017.048-.036.073-.05l9.2-5.308c.207-.12.46-.12.667 0l9.2 5.308c.026.014.05.033.073.05.022.015.046.03.065.048.023.021.04.045.06.068.014.02.029.036.04.056.017.027.027.057.038.086.008.02.02.037.026.057zm-1.596 10.075v-9.222l-3.364 1.94-4.644 2.676v9.222l8.008-4.616zM40.73 39.025v-9.222l-4.57 2.62-13.07 7.48v9.313l17.64-10.19zM1.602 7.719v31.53l17.64 10.186v-9.314l-9.204-5.254-.003-.002-.004-.002c-.025-.015-.047-.035-.07-.053-.022-.016-.046-.03-.066-.049-.02-.02-.036-.044-.054-.066-.016-.02-.034-.036-.047-.058-.014-.025-.023-.053-.032-.08-.01-.025-.022-.049-.028-.075a.809.809 0 0 1-.016-.209V9.654L1.602 7.72zm8.868-5.558L2.463 6.761l8.006 4.617 8.006-4.617-8.006-4.6zm4.63 28.683l4.645-2.676V7.719l-3.363 1.94-4.645 2.676v20.848l3.363-1.94zM30.057 10.29l-8.006 4.617 8.006 4.616 8.005-4.616-8.005-4.617zm-8.808 5.104v9.222l4.644 2.676 3.364 1.94v-9.222l-4.644-2.676-3.364-1.94zm17.678 15.462 4.644-2.676 3.363-1.94v-9.222l-3.363 1.94-4.644 2.676v9.222z" fill="#FF2D20"/></svg>',
+  },
+  {
+    name: "React",
+    color: "#61DAFB",
+    colorLight: "#0ea5e9",
+    bgDark: "#0a2a35",
+    bgLight: "#e0f7fd",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="4" fill="#61DAFB"/><ellipse cx="20" cy="20" rx="18" ry="7" stroke="#61DAFB" stroke-width="2" fill="none"/><ellipse cx="20" cy="20" rx="18" ry="7" stroke="#61DAFB" stroke-width="2" fill="none" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="18" ry="7" stroke="#61DAFB" stroke-width="2" fill="none" transform="rotate(120 20 20)"/></svg>',
+  },
+  {
+    name: "Flutter",
+    color: "#54C5F8",
+    colorLight: "#0284c7",
+    bgDark: "#062030",
+    bgLight: "#e0f4fd",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><polygon points="8,20 20,4 32,4 16,20" fill="#54C5F8"/><polygon points="16,20 32,4 32,20 24,28" fill="#01579B"/><polygon points="16,20 24,28 32,36 32,20" fill="#29B6F6"/><polygon points="24,28 18,34 26,40 32,36" fill="#54C5F8" opacity="0.6"/></svg>',
+  },
+  {
+    name: "Flask",
+    color: "#a8b4c8",
+    colorLight: "#334155",
+    bgDark: "#1a1a2e",
+    bgLight: "#f1f5f9",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M15 4 L15 18 L6 32 Q4 36 8 38 L32 38 Q36 36 34 32 L25 18 L25 4 Z" fill="none" stroke="#a8b4c8" stroke-width="2"/><line x1="12" y1="10" x2="28" y2="10" stroke="#a8b4c8" stroke-width="2"/><circle cx="14" cy="28" r="2" fill="#4ade80"/><circle cx="20" cy="32" r="1.5" fill="#4ade80"/></svg>',
+  },
+  {
+    name: "Django",
+    color: "#44B78B",
+    colorLight: "#059669",
+    bgDark: "#0a2018",
+    bgLight: "#ecfdf5",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="4" width="8" height="28" rx="1" fill="#44B78B"/><rect x="20" y="4" width="8" height="20" rx="1" fill="#44B78B"/><path d="M20 24 Q20 36 10 36" stroke="#44B78B" stroke-width="3" fill="none"/><path d="M28 24 Q28 38 18 38" stroke="#44B78B" stroke-width="3" fill="none"/></svg>',
+  },
+  {
+    name: "Docker",
+    color: "#2496ED",
+    colorLight: "#2563eb",
+    bgDark: "#05152b",
+    bgLight: "#eff6ff",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="16" width="6" height="5" rx="1" fill="#2496ED"/><rect x="12" y="16" width="6" height="5" rx="1" fill="#2496ED"/><rect x="20" y="16" width="6" height="5" rx="1" fill="#2496ED"/><rect x="12" y="9" width="6" height="5" rx="1" fill="#2496ED"/><rect x="20" y="9" width="6" height="5" rx="1" fill="#2496ED"/><path d="M4 24 Q4 32 12 32 L30 32 Q38 28 36 22 Q34 20 30 21 Q30 14 22 16" stroke="#2496ED" stroke-width="1.5" fill="none"/></svg>',
+  },
+  {
+    name: "PostgreSQL",
+    color: "#4a90d9",
+    colorLight: "#1d4ed8",
+    bgDark: "#0a1520",
+    bgLight: "#eff6ff",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><ellipse cx="20" cy="10" rx="12" ry="5" fill="#336791"/><rect x="8" y="10" width="24" height="18" fill="#336791"/><ellipse cx="20" cy="28" rx="12" ry="5" fill="#4a90d9"/><ellipse cx="20" cy="10" rx="12" ry="5" fill="#4a90d9"/></svg>',
+  },
+  {
+    name: "MySQL",
+    color: "#F29111",
+    colorLight: "#d97706",
+    bgDark: "#1a0e00",
+    bgLight: "#fffbeb",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M4 28 Q4 4 20 4 Q36 4 36 28" stroke="#F29111" stroke-width="3" fill="none"/><path d="M12 28 Q12 12 20 12 Q28 12 28 28" stroke="#00758F" stroke-width="2.5" fill="none"/><line x1="20" y1="4" x2="24" y2="36" stroke="#F29111" stroke-width="2"/></svg>',
+  },
+  {
+    name: "MongoDB",
+    color: "#47A248",
+    colorLight: "#16a34a",
+    bgDark: "#0a1a0a",
+    bgLight: "#f0fdf4",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 4 Q28 12 28 20 Q28 30 20 36 Q12 30 12 20 Q12 12 20 4Z" fill="#47A248"/><line x1="20" y1="4" x2="20" y2="36" stroke="#fff" stroke-width="1" opacity="0.3"/><circle cx="20" cy="28" r="3" fill="#fff" opacity="0.8"/></svg>',
+  },
+  {
+    name: "Node.js",
+    color: "#8CC84B",
+    colorLight: "#4d7c0f",
+    bgDark: "#0d1f0a",
+    bgLight: "#f7fee7",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 4 L34 12 L34 28 L20 36 L6 28 L6 12 Z" fill="none" stroke="#8CC84B" stroke-width="2"/><text x="20" y="25" text-anchor="middle" fill="#8CC84B" font-size="11" font-weight="bold">JS</text></svg>',
+  },
+  {
+    name: "PHP",
+    color: "#8892BF",
+    colorLight: "#4f46e5",
+    bgDark: "#0d0f1f",
+    bgLight: "#eef2ff",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><ellipse cx="20" cy="20" rx="18" ry="10" fill="#4F5B93"/><text x="20" y="25" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold" font-family="monospace">php</text></svg>',
+  },
+  {
+    name: "Kubernetes",
+    color: "#326CE5",
+    colorLight: "#2563eb",
+    bgDark: "#050e2b",
+    bgLight: "#eff6ff",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="16" fill="none" stroke="#326CE5" stroke-width="2"/><polygon points="20,6 23,17 20,20 17,17" fill="#326CE5"/><polygon points="20,34 23,23 20,20 17,23" fill="#326CE5"/><polygon points="6,20 17,17 20,20 17,23" fill="#326CE5"/><polygon points="34,20 23,17 20,20 23,23" fill="#326CE5"/><circle cx="20" cy="20" r="3" fill="#326CE5"/></svg>',
+  },
+  {
+    name: "Google Cloud",
+    color: "#4285F4",
+    colorLight: "#1d4ed8",
+    bgDark: "#050e2b",
+    bgLight: "#eff6ff",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M25 14 A8 8 0 0 0 10 18 A6 6 0 0 0 10 30 L30 30 A7 7 0 0 0 30 16 Z" fill="none" stroke="#4285F4" stroke-width="2"/><circle cx="14" cy="30" r="2" fill="#EA4335"/><circle cx="20" cy="30" r="2" fill="#FBBC05"/><circle cx="26" cy="30" r="2" fill="#34A853"/></svg>',
+  },
+  {
+    name: "JavaScript",
+    color: "#F7DF1E",
+    colorLight: "#b45309",
+    bgDark: "#1a1700",
+    bgLight: "#fefce8",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="32" height="32" rx="3" fill="#F7DF1E"/><text x="20" y="28" text-anchor="middle" fill="#000" font-size="14" font-weight="bold" font-family="monospace">JS</text></svg>',
+  },
+  {
+    name: "Python",
+    color: "#3776AB",
+    colorLight: "#1d4ed8",
+    bgDark: "#05101a",
+    bgLight: "#eff6ff",
+    svg: '<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 4 C12 4 10 8 10 12 L10 16 L22 16 L22 18 L8 18 C4 18 4 22 4 26 C4 30 6 36 14 36 L16 36 L16 32 C16 28 18 26 20 26 L26 26 C30 26 30 22 30 20 L30 12 C30 8 28 4 20 4Z" fill="#3776AB"/><path d="M20 36 C28 36 30 32 30 28 L30 24 L18 24 L18 22 L32 22 C36 22 36 18 36 14 C36 10 34 4 26 4 L24 4 L24 8 C24 12 22 14 20 14 L14 14 C10 14 10 18 10 20 L10 28 C10 32 12 36 20 36Z" fill="#FFD43B"/><circle cx="16" cy="11" r="2" fill="#fff"/><circle cx="24" cy="29" r="2" fill="#fff"/></svg>',
+  },
+];
+---
+
+<div
+  class="anim-fade-in flex flex-col md:flex-row gap-6 mb-6 items-center md:items-start"
+>
+  <!-- Avatar -->
+  <div class="relative flex-shrink-0">
+    <div
+      class="absolute inset-0 rounded-full bg-blue-400/30 dark:bg-blue-400/20 blur-xl scale-125 animate-pulse-glow"
+      aria-hidden="true"
+    >
+    </div>
+    <img
+      class="avatar-ring relative rounded-full shadow-2xl w-40 h-40 ring-2 ring-offset-2 transition-transform duration-300 hover:scale-110 ring-offset-gray-50 dark:ring-offset-[#0b2a35]"
+      src="../public/projects/me.png"
+      alt={personalImageAlt}
+    />
+  </div>
+
+  <!-- Texte -->
+  <div class="text-center md:text-left md:flex-1">
+    <a
+      href="#contact"
+      class="flex items-center justify-center md:justify-start transition md:hover:scale-105 mb-4"
+    >
+      <Badge><SparklesIcon class="size-3" /> Disponible pour une embauche</Badge
+      >
+    </a>
+    <h1
+      class="anim-fade-in anim-delay-1 text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
+    >
+      Salut, je suis <span class="gradient-name">TSIMANARY</span>
+    </h1>
+    <p class="mt-6 text-xl text-gray-800 dark:text-gray-300 text-pretty">
+      Développeur Full Stack passionné, je conçois et réalise des applications
+      web et mobile performantes et évolutives avec
+      <strong class="text-blue-500 dark:text-green-400"
+        >Laravel, React, Flutter et Flask</strong
+      >. À l'aise avec les environnements modernes de déploiement, je maîtrise
+      <strong class="text-blue-500 dark:text-green-400"
+        >Docker, Kubernetes et Google Cloud</strong
+      >
+      pour livrer des solutions robustes et scalables.
+    </p>
+    <!-- Navigation sociale ICI — dans le même bloc que le texte -->
+    <nav
+      class="anim-fade-in anim-delay-3 flex flex-wrap justify-center md:justify-start gap-4 mt-8"
+      aria-label="Réseaux sociaux et contact"
+    >
+      <SocialPill href="#contact">
+        <MailIcon class="size-4" />
+        Contactez-moi
+      </SocialPill>
+      <SocialPill
+        href="https://www.linkedin.com/in/tsimanary-alliance-484059307/"
+      >
+        <LinkedInIcon class="size-4" />
+        LinkedIn
+      </SocialPill>
+      <SocialPill href="https://github.com/dashboard">
+        <GitHubIcon class="size-4" />
+        GitHub
+      </SocialPill>
+      <SocialPill href="/Tsimanary-CV.pdf" download="Tsimanary-CV.pdf">
+        <svg
+          class="size-4"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+          ></path>
+        </svg>
+        Télécharger mon CV
+      </SocialPill>
+    </nav>
+  </div>
+</div>
+
+<!-- Bande tech animée -->
+<div class="tech-strip-wrapper" aria-label="Technologies maîtrisées">
+  <div class="tech-strip">
+    {
+      [...techs, ...techs].map((tech) => (
+        <div
+          class="tech-pill"
+          style={
+            "--tc-dark:" +
+            tech.color +
+            "; --tc-light:" +
+            tech.colorLight +
+            "; --bg-dark:" +
+            tech.bgDark +
+            "; --bg-light:" +
+            tech.bgLight +
+            ";"
+          }
+        >
+          <span class="tech-pill-icon" set:html={tech.svg} />
+          <span class="tech-pill-name">{tech.name}</span>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  /* === Avatar === */
+  html.dark .avatar-glow {
+    background: rgba(92, 246, 92, 0.3);
+  }
+  .avatar-glow {
+    background: rgba(59, 130, 246, 0.25);
+  }
+  html.dark .avatar-ring {
+    --tw-ring-color: rgba(92, 246, 143, 0.55);
+  }
+  .avatar-ring {
+    --tw-ring-color: rgba(59, 130, 246, 0.5);
+  }
+
+  /* === Nom dégradé === */
+  html.dark .gradient-name {
+    background: linear-gradient(90deg, #49ed3a, #b5fdbb, #8bfaf4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-name {
+    background: linear-gradient(90deg, #2563eb, #60a5fa, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* === Bande tech === */
+  .tech-strip-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 2.5rem;
+    overflow: hidden;
+    padding: 12px 0;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .tech-strip {
+    display: flex;
+    gap: 0.75rem;
+    width: max-content;
+    animation: scroll-left 40s linear infinite;
+    padding: 4px 0;
+  }
+  .tech-strip:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* === Pill === */
+  .tech-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem 0.45rem 0.6rem;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    cursor: default;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s,
+      border-color 0.2s;
+    flex-shrink: 0;
+    /* Mode sombre par défaut */
+    background: var(--bg-dark);
+    border-color: color-mix(in srgb, var(--tc-dark) 30%, transparent);
+  }
+
+  /* Mode clair */
+  html:not(.dark) .tech-pill {
+    background: var(--bg-light);
+    border-color: color-mix(in srgb, var(--tc-light) 25%, transparent);
+  }
+
+  /* Hover sombre */
+  .tech-pill:hover {
+    transform: translateY(-3px) scale(1.05);
+    border-color: var(--tc-dark);
+    box-shadow: 0 8px 24px -6px
+      color-mix(in srgb, var(--tc-dark) 50%, transparent);
+  }
+
+  /* Hover clair */
+  html:not(.dark) .tech-pill:hover {
+    border-color: var(--tc-light);
+    box-shadow: 0 8px 24px -6px
+      color-mix(in srgb, var(--tc-light) 40%, transparent);
+  }
+
+  /* Icône */
+  .tech-pill-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .tech-pill-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Texte */
+  .tech-pill-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--tc-dark);
+  }
+  html:not(.dark) .tech-pill-name {
+    color: var(--tc-light);
+  }
+</style>

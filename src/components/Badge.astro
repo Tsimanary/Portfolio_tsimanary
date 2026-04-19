@@ -1,0 +1,21 @@
+---
+---
+<span class="availability-badge inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm border">
+  <slot />
+</span>
+
+<style>
+  /* Mode clair */
+  .availability-badge {
+    background: rgba(59, 130, 246, 0.08);
+    border-color: rgba(59, 130, 246, 0.25);
+    color: #2563eb;
+  }
+
+  /* Mode sombre */
+  html.dark .availability-badge {
+    background: rgba(92, 246, 131, 0.1);
+    border-color: rgba(92, 246, 195, 0.3);
+    color: #b5fdf3;
+  }
+</style>

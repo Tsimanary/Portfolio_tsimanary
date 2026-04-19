@@ -1,0 +1,542 @@
+---
+const RECAPTCHA_SITE_KEY = "6LfteL4sAAAAAJljJQUEymWzgKB_LtMYIOuCmxB-";
+---
+
+<script src="https://www.google.com/recaptcha/api.js" async defer is:inline></script>
+
+<section class="contact-section">
+  <div class="contact-header">
+    <p class="contact-eyebrow">TRAVAILLONS ENSEMBLE</p>
+    <h2 class="contact-title">
+      Vous avez un projet ?
+      <span class="contact-title-accent">Contactez-moi.</span>
+    </h2>
+    <p class="contact-subtitle">
+      Disponible pour des missions freelance, des collaborations ou des postes en CDI.
+      N'hésitez pas à me contacter !
+    </p>
+  </div>
+
+  <div class="contact-body">
+
+    <!-- Colonne gauche -->
+    <div class="contact-left">
+      <a href="https://github.com/Tsimanary" target="_blank" rel="noopener noreferrer" class="social-card">
+        <div class="social-icon github-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="social-name">GitHub</p>
+          <p class="social-handle">@Tsimanary</p>
+        </div>
+      </a>
+
+      <a href="https://linkedin.com/in/tsimanary" target="_blank" rel="noopener noreferrer" class="social-card">
+        <div class="social-icon linkedin-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="social-name">LinkedIn</p>
+          <p class="social-handle">TSIMANARY Andriniaina Bonheur</p>
+        </div>
+      </a>
+
+      <a href="mailto:tsimanaryalliance@gmail.com" class="social-card">
+        <div class="social-icon email-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+        </div>
+        <div>
+          <p class="social-name">Email</p>
+          <p class="social-handle">tsimanaryalliance@gmail.com</p>
+        </div>
+      </a>
+
+      <div class="dispo-card">
+        <div class="dispo-dot"></div>
+        <div>
+          <p class="dispo-title">Disponible pour des opportunités</p>
+          <p class="dispo-desc">Actuellement disponible pour des projets freelance, collaborations ou opportunités professionnelles.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne droite -->
+    <div class="contact-right">
+      <div class="form-tabs">
+        <button class="tab-btn tab-active" id="tab-message">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+          Envoyer un message
+        </button>
+        <button class="tab-btn" id="tab-rdv">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Prendre rendez-vous
+        </button>
+      </div>
+
+      <!-- Panneau message -->
+      <div class="form-panel" id="panel-message">
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                NOM COMPLET *
+              </label>
+              <input id="f-nom" type="text" class="form-input" placeholder="Andriniaina Bonheur" required />
+              <span class="field-error" id="err-nom">Ce champ est requis.</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.1a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                TÉLÉPHONE *
+              </label>
+              <input id="f-tel" type="tel" class="form-input" placeholder="+261 34 45 102 68" required />
+              <span class="field-error" id="err-tel">Ce champ est requis.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              EMAIL *
+            </label>
+            <input id="f-email" type="email" class="form-input" placeholder="exemple@email.com" required />
+            <span class="field-error" id="err-email">Email invalide.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              MESSAGE *
+            </label>
+            <textarea id="f-msg" class="form-input form-textarea" placeholder="Parlez-moi de votre projet..." rows="4" required></textarea>
+            <span class="field-error" id="err-msg">Ce champ est requis.</span>
+          </div>
+          <div class="recaptcha-wrapper">
+            <div class="g-recaptcha" data-sitekey={RECAPTCHA_SITE_KEY} data-theme="auto"></div>
+            <span class="field-error" id="err-captcha">Veuillez cocher la case reCAPTCHA.</span>
+          </div>
+          <div id="form-success" class="form-feedback success hidden">✅ Message envoyé ! Je vous répondrai dès que possible.</div>
+          <div id="form-error" class="form-feedback error hidden">❌ Veuillez remplir tous les champs et valider le reCAPTCHA.</div>
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+            Envoyer le message
+          </button>
+        </form>
+      </div>
+
+      <!-- Panneau RDV avec calendrier -->
+      <div class="form-panel hidden" id="panel-rdv">
+        <div class="rdv-wrapper">
+
+          <!-- Calendrier -->
+          <p class="rdv-section-label">SÉLECTIONNEZ UNE DATE</p>
+          <div class="calendar">
+            <div class="cal-header">
+              <button class="cal-nav" id="cal-prev">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <span class="cal-month-label" id="cal-month-label"></span>
+              <button class="cal-nav" id="cal-next">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            </div>
+            <div class="cal-weekdays">
+              <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+          </div>
+
+          <!-- Créneaux -->
+          <div id="slots-section" class="hidden">
+            <p class="rdv-section-label">SÉLECTIONNEZ UN CRÉNEAU</p>
+            <div class="slots-group">
+              <p class="slots-period">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Matin
+              </p>
+              <div class="slots-row" id="slots-matin">
+                <button class="slot-btn" data-time="08:00">08:00</button>
+                <button class="slot-btn" data-time="09:00">09:00</button>
+                <button class="slot-btn" data-time="10:00">10:00</button>
+                <button class="slot-btn" data-time="11:00">11:00</button>
+              </div>
+            </div>
+            <div class="slots-group">
+              <p class="slots-period">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Après-midi
+              </p>
+              <div class="slots-row" id="slots-aprem">
+                <button class="slot-btn" data-time="13:00">13:00</button>
+                <button class="slot-btn" data-time="14:00">14:00</button>
+                <button class="slot-btn" data-time="15:00">15:00</button>
+                <button class="slot-btn" data-time="16:00">16:00</button>
+                <button class="slot-btn" data-time="17:00">17:00</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coordonnées RDV -->
+          <div id="rdv-coords" class="hidden">
+            <p class="rdv-section-label">VOS COORDONNÉES</p>
+            <div class="form-group">
+              <label class="form-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                NOM COMPLET *
+              </label>
+              <input id="rdv-nom" type="text" class="form-input" placeholder="Andriniaina Bonheur" />
+            </div>
+            <div class="form-row" style="margin-top:0.6rem;">
+              <div class="form-group">
+                <label class="form-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  EMAIL *
+                </label>
+                <input id="rdv-email" type="email" class="form-input" placeholder="exemple@email.com" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.1a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  TÉLÉPHONE *
+                </label>
+                <input id="rdv-tel" type="tel" class="form-input" placeholder="+261 34 45 102 68" />
+              </div>
+            </div>
+            <div id="rdv-success" class="form-feedback success hidden" style="margin-top:0.75rem;">
+              ✅ Demande envoyée ! Je confirmerai votre rendez-vous rapidement.
+            </div>
+            <button class="submit-btn" id="rdv-confirm-btn" style="margin-top:0.75rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Confirmer le rendez-vous
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section { padding: 4rem 0 2rem; }
+  .contact-header { text-align: center; margin-bottom: 3rem; }
+  .contact-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; margin: 0 0 0.75rem; color: #3b82f6; }
+  html.dark .contact-eyebrow { color: #4ade80; }
+  .contact-title { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin: 0 0 1rem; color: #0f172a; line-height: 1.2; }
+  html.dark .contact-title { color: #f1f5f9; }
+  .contact-title-accent { color: #3b82f6; }
+  html.dark .contact-title-accent { color: #4ade80; }
+  .contact-subtitle { font-size: 15px; color: #64748b; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+  html.dark .contact-subtitle { color: #94a3b8; }
+
+  .contact-body { display: grid; grid-template-columns: 1fr 1.4fr; gap: 2rem; align-items: start; }
+  @media (max-width: 768px) { .contact-body { grid-template-columns: 1fr; } }
+
+  .contact-left { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .social-card { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border-radius: 14px; text-decoration: none; transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s; background: #ffffff; border: 1px solid rgba(59,130,246,0.15); }
+  .social-card:hover { border-color: rgba(59,130,246,0.4); box-shadow: 0 6px 24px -6px rgba(59,130,246,0.18); transform: translateY(-2px); }
+  html.dark .social-card { background: #0f172a; border-color: rgba(74,222,128,0.12); }
+  html.dark .social-card:hover { border-color: rgba(74,222,128,0.35); box-shadow: 0 6px 24px -6px rgba(74,222,128,0.18); }
+
+  .social-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .github-icon { background: #24292e; color: #fff; }
+  .linkedin-icon { background: #0a66c2; color: #fff; }
+  .email-icon { background: rgba(59,130,246,0.12); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2); }
+  html.dark .email-icon { background: rgba(74,222,128,0.1); color: #4ade80; border-color: rgba(74,222,128,0.2); }
+
+  .social-name { font-size: 14px; font-weight: 700; margin: 0; color: #1e293b; }
+  html.dark .social-name { color: #f1f5f9; }
+  .social-handle { font-size: 12px; margin: 2px 0 0; color: #64748b; }
+  html.dark .social-handle { color: #94a3b8; }
+
+  .dispo-card { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem 1.25rem; border-radius: 14px; background: #ffffff; border: 1px solid rgba(59,130,246,0.15); }
+  html.dark .dispo-card { background: #0f172a; border-color: rgba(74,222,128,0.12); }
+  .dispo-dot { width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.2); flex-shrink: 0; margin-top: 4px; }
+  .dispo-title { font-size: 13px; font-weight: 700; margin: 0 0 4px; color: #1e293b; }
+  html.dark .dispo-title { color: #f1f5f9; }
+  .dispo-desc { font-size: 12px; line-height: 1.5; margin: 0; color: #64748b; }
+  html.dark .dispo-desc { color: #94a3b8; }
+
+  .contact-right { border-radius: 16px; overflow: hidden; background: #ffffff; border: 1px solid rgba(59,130,246,0.15); }
+  html.dark .contact-right { background: #0f172a; border-color: rgba(74,222,128,0.12); }
+
+  .form-tabs { display: flex; border-bottom: 1px solid rgba(59,130,246,0.12); }
+  html.dark .form-tabs { border-bottom-color: rgba(74,222,128,0.1); }
+  .tab-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0.85rem 1rem; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: #64748b; transition: color 0.2s, background 0.2s; }
+  .tab-active { color: #3b82f6; background: rgba(59,130,246,0.06); border-bottom: 2px solid #3b82f6; }
+  html.dark .tab-active { color: #4ade80; background: rgba(74,222,128,0.06); border-bottom-color: #4ade80; }
+
+  .form-panel { padding: 1.25rem; }
+  .hidden { display: none !important; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 0.85rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+  @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-label { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #64748b; }
+  html.dark .form-label { color: #94a3b8; }
+
+  .form-input { width: 100%; padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 13px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; background: #f8fafc; border: 1px solid rgba(59,130,246,0.15); color: #1e293b; }
+  .form-input::placeholder { color: #94a3b8; }
+  .form-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+  .form-input.invalid { border-color: #ef4444 !important; }
+  html.dark .form-input { background: rgba(255,255,255,0.04); border-color: rgba(74,222,128,0.12); color: #f1f5f9; }
+  html.dark .form-input:focus { border-color: #4ade80; box-shadow: 0 0 0 3px rgba(74,222,128,0.1); }
+  .form-textarea { resize: vertical; min-height: 100px; }
+
+  .field-error { font-size: 11px; color: #ef4444; display: none; margin-top: 2px; }
+  .field-error.visible { display: block; }
+
+  .recaptcha-wrapper { display: flex; flex-direction: column; gap: 4px; }
+  html.dark .g-recaptcha iframe { filter: invert(0.85) hue-rotate(180deg); }
+
+  .form-feedback { padding: 0.75rem 1rem; border-radius: 8px; font-size: 13px; font-weight: 500; }
+  .form-feedback.success { background: rgba(74,222,128,0.12); color: #166534; border: 1px solid rgba(74,222,128,0.3); }
+  html.dark .form-feedback.success { color: #4ade80; }
+  .form-feedback.error { background: rgba(239,68,68,0.1); color: #991b1b; border: 1px solid rgba(239,68,68,0.25); }
+  html.dark .form-feedback.error { color: #fca5a5; }
+
+  .submit-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 0.85rem; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; transition: opacity 0.2s, transform 0.15s; background: #3b82f6; color: #ffffff; }
+  html.dark .submit-btn { background: #4ade80; color: #052e16; }
+  .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* === Calendrier === */
+  .rdv-wrapper { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .rdv-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #64748b; margin: 0 0 0.6rem; }
+  html.dark .rdv-section-label { color: #4ade80; }
+
+  .calendar { background: transparent; }
+
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .cal-month-label { font-size: 15px; font-weight: 700; color: #1e293b; }
+  html.dark .cal-month-label { color: #f1f5f9; }
+  .cal-nav { background: transparent; border: none; cursor: pointer; color: #64748b; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; transition: background 0.2s, color 0.2s; }
+  .cal-nav:hover { background: rgba(59,130,246,0.1); color: #3b82f6; }
+  html.dark .cal-nav:hover { background: rgba(74,222,128,0.1); color: #4ade80; }
+
+  .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 0.4rem; }
+  .cal-weekdays span { font-size: 11px; font-weight: 600; color: #94a3b8; padding: 4px 0; }
+
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+
+  .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 13px; cursor: pointer; border: none; background: transparent; color: #475569; transition: background 0.15s, color 0.15s; font-weight: 500; }
+  html.dark .cal-day { color: #94a3b8; }
+  .cal-day:hover:not(.cal-past):not(.cal-empty) { background: rgba(59,130,246,0.12); color: #3b82f6; }
+  html.dark .cal-day:hover:not(.cal-past):not(.cal-empty) { background: rgba(74,222,128,0.12); color: #4ade80; }
+  .cal-day.cal-today { border: 1px solid rgba(59,130,246,0.4); color: #3b82f6; font-weight: 700; }
+  html.dark .cal-day.cal-today { border-color: rgba(74,222,128,0.4); color: #4ade80; }
+  .cal-day.cal-selected { background: #3b82f6; color: #fff !important; font-weight: 700; }
+  html.dark .cal-day.cal-selected { background: #4ade80; color: #052e16 !important; }
+  .cal-day.cal-past { opacity: 0.3; cursor: not-allowed; }
+  .cal-day.cal-empty { cursor: default; }
+
+  /* Créneaux */
+  .slots-group { margin-bottom: 0.75rem; }
+  .slots-period { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #64748b; margin: 0 0 0.5rem; }
+  html.dark .slots-period { color: #94a3b8; }
+  .slots-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .slot-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(59,130,246,0.2); background: transparent; color: #475569; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  html.dark .slot-btn { border-color: rgba(74,222,128,0.2); color: #94a3b8; }
+  .slot-btn:hover { background: rgba(59,130,246,0.1); color: #3b82f6; border-color: rgba(59,130,246,0.4); }
+  html.dark .slot-btn:hover { background: rgba(74,222,128,0.1); color: #4ade80; border-color: rgba(74,222,128,0.4); }
+  .slot-btn.slot-selected { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  html.dark .slot-btn.slot-selected { background: #4ade80; color: #052e16; border-color: #4ade80; }
+</style>
+
+<script define:vars={{ RECAPTCHA_SITE_KEY }}>
+  // === Onglets ===
+  const tabMessage = document.getElementById("tab-message");
+  const tabRdv     = document.getElementById("tab-rdv");
+  const panelMsg   = document.getElementById("panel-message");
+  const panelRdv   = document.getElementById("panel-rdv");
+
+  tabMessage?.addEventListener("click", () => {
+    tabMessage.classList.add("tab-active");
+    tabRdv?.classList.remove("tab-active");
+    panelMsg?.classList.remove("hidden");
+    panelRdv?.classList.add("hidden");
+  });
+  tabRdv?.addEventListener("click", () => {
+    tabRdv.classList.add("tab-active");
+    tabMessage?.classList.remove("tab-active");
+    panelRdv?.classList.remove("hidden");
+    panelMsg?.classList.add("hidden");
+  });
+
+  // === Calendrier ===
+  const MOIS_FR = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+  let currentDate = new Date();
+  let selectedDate = null;
+  let selectedTime = null;
+
+  function renderCalendar() {
+    const grid  = document.getElementById("cal-grid");
+    const label = document.getElementById("cal-month-label");
+    if (!grid || !label) return;
+
+    const year  = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    label.textContent = MOIS_FR[month] + " " + year;
+
+    const firstDay    = new Date(year, month, 1).getDay();
+    const offset      = firstDay === 0 ? 6 : firstDay - 1;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today       = new Date(); today.setHours(0,0,0,0);
+
+    grid.innerHTML = "";
+
+    for (let i = 0; i < offset; i++) {
+      const empty = document.createElement("div");
+      empty.className = "cal-day cal-empty";
+      grid.appendChild(empty);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const btn      = document.createElement("button");
+      btn.className  = "cal-day";
+      btn.textContent = String(d);
+
+      const thisDate = new Date(year, month, d);
+      thisDate.setHours(0,0,0,0);
+
+      if (thisDate < today) {
+        btn.classList.add("cal-past");
+        btn.disabled = true;
+      }
+      if (thisDate.getTime() === today.getTime()) {
+        btn.classList.add("cal-today");
+      }
+      if (selectedDate && thisDate.getTime() === selectedDate.getTime()) {
+        btn.classList.add("cal-selected");
+      }
+
+      btn.addEventListener("click", () => {
+        if (btn.disabled) return;
+        selectedDate = thisDate;
+        selectedTime = null;
+        document.querySelectorAll(".slot-btn").forEach(function(s) {
+          s.classList.remove("slot-selected");
+        });
+        renderCalendar();
+        document.getElementById("slots-section")?.classList.remove("hidden");
+        document.getElementById("rdv-coords")?.classList.add("hidden");
+      });
+
+      grid.appendChild(btn);
+    }
+  }
+
+  document.getElementById("cal-prev")?.addEventListener("click", () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+  });
+  document.getElementById("cal-next")?.addEventListener("click", () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  // === Créneaux ===
+  document.querySelectorAll(".slot-btn").forEach(function(btn) {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".slot-btn").forEach(function(s) {
+        s.classList.remove("slot-selected");
+      });
+      btn.classList.add("slot-selected");
+      selectedTime = btn.getAttribute("data-time");
+      document.getElementById("rdv-coords")?.classList.remove("hidden");
+    });
+  });
+
+  // === Confirmer RDV ===
+  document.getElementById("rdv-confirm-btn")?.addEventListener("click", () => {
+    const nom   = document.getElementById("rdv-nom")?.value?.trim();
+    const email = document.getElementById("rdv-email")?.value?.trim();
+    const tel   = document.getElementById("rdv-tel")?.value?.trim();
+
+    if (!nom || !email || !tel || !selectedDate || !selectedTime) {
+      alert("Veuillez remplir tous les champs, sélectionner une date et un créneau.");
+      return;
+    }
+
+    const dateStr = selectedDate.toLocaleDateString("fr-FR", {
+      weekday: "long", year: "numeric", month: "long", day: "numeric"
+    });
+    const subject = encodeURIComponent("Demande de rendez-vous — " + dateStr + " à " + selectedTime);
+    const body    = encodeURIComponent(
+      "Bonjour,\n\nJe souhaite prendre rendez-vous.\n\n" +
+      "Date : " + dateStr + "\nCréneau : " + selectedTime + "\n\n" +
+      "Mes coordonnées :\nNom : " + nom + "\nEmail : " + email + "\nTéléphone : " + tel +
+      "\n\nCordialement,\n" + nom
+    );
+
+    window.location.href = "mailto:tsimanaryalliance@gmail.com?subject=" + subject + "&body=" + body;
+    document.getElementById("rdv-success")?.classList.remove("hidden");
+  });
+
+  // === Formulaire message ===
+  const form    = document.getElementById("contact-form");
+  const success = document.getElementById("form-success");
+  const errBox  = document.getElementById("form-error");
+
+  function showError(inputId, errId, show) {
+    const input = document.getElementById(inputId);
+    const err   = document.getElementById(errId);
+    if (!input || !err) return;
+    if (show) { input.classList.add("invalid"); err.classList.add("visible"); }
+    else       { input.classList.remove("invalid"); err.classList.remove("visible"); }
+  }
+
+  function validate() {
+    let ok = true;
+    const nom   = document.getElementById("f-nom")?.value?.trim();
+    const tel   = document.getElementById("f-tel")?.value?.trim();
+    const email = document.getElementById("f-email")?.value?.trim();
+    const msg   = document.getElementById("f-msg")?.value?.trim();
+
+    showError("f-nom",   "err-nom",   !nom);   if (!nom)   ok = false;
+    showError("f-tel",   "err-tel",   !tel);   if (!tel)   ok = false;
+
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || "");
+    showError("f-email", "err-email", !emailOk); if (!emailOk) ok = false;
+    showError("f-msg",   "err-msg",   !msg);   if (!msg)   ok = false;
+
+    const captcha    = typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
+    const errCaptcha = document.getElementById("err-captcha");
+    if (!captcha) { errCaptcha?.classList.add("visible"); ok = false; }
+    else           { errCaptcha?.classList.remove("visible"); }
+    return ok;
+  }
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    success?.classList.add("hidden");
+    errBox?.classList.add("hidden");
+    if (!validate()) { errBox?.classList.remove("hidden"); return; }
+
+    const nom     = document.getElementById("f-nom")?.value?.trim();
+    const tel     = document.getElementById("f-tel")?.value?.trim();
+    const email   = document.getElementById("f-email")?.value?.trim();
+    const message = document.getElementById("f-msg")?.value?.trim();
+
+    const subject = encodeURIComponent("Message de " + nom);
+    const body    = encodeURIComponent(
+      "Nom : " + nom + "\nTéléphone : " + tel + "\nEmail : " + email + "\n\nMessage :\n" + message
+    );
+    window.location.href = "mailto:tsimanaryalliance@gmail.com?subject=" + subject + "&body=" + body;
+
+    success?.classList.remove("hidden");
+    form.reset();
+    if (typeof grecaptcha !== "undefined") grecaptcha.reset();
+  });
+
+  // Init
+  renderCalendar();
+</script>

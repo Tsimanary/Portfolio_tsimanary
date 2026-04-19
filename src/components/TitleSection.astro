@@ -1,0 +1,30 @@
+---
+// const { className } = Astro.props;
+---
+
+<div
+  class="section-title flex items-center gap-3 text-2xl font-bold tracking-tight mb-6 pb-3 border-b"
+>
+  <slot />
+</div>
+
+<style>
+  /* Mode clair */
+  .section-title {
+    color: #1e293b;
+    border-color: rgba(59, 130, 246, 0.15);
+  }
+  /* Les icônes SVG héritent la couleur du parent via currentColor */
+  .section-title :global(svg) {
+    color: #3b82f6;
+  }
+
+  /* Mode sombre */
+  html.dark .section-title {
+    color: #e2f0ef;
+    border-color: rgba(92, 246, 131, 0.15);
+  }
+  html.dark .section-title :global(svg) {
+    color: #8bfab9;
+  }
+</style>
