@@ -24,20 +24,26 @@ const { description, title } = Astro.props;
     <meta name="darkreader-lock" />
     <ViewTransitions />
 
-    <!-- Vanta.js : Three.js requis en premier -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
-      is:inline
-    ></script>
+      is:inline></script>
     <script
       src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"
-      is:inline
-    ></script>
+      is:inline></script>
   </head>
 
   <body class="relative text-black dark:text-white">
     <!-- Canvas Vanta plein écran fixe -->
     <div id="vanta-bg" class="fixed inset-0 z-[-2]"></div>
+
+    <!-- Surcouche opacity pour lisibilité — mise à jour par JS selon le mode -->
+    <div
+      id="vanta-overlay"
+      class="fixed inset-0 pointer-events-none"
+      style="z-index: -1; background: rgba(8, 12, 28, 0.55);"
+      aria-hidden="true"
+    >
+    </div>
 
     <Header />
     <slot />
@@ -67,23 +73,9 @@ const { description, title } = Astro.props;
         }
       }
 
-      /* Vanta canvas toujours derrière tout */
       #vanta-bg {
         width: 100%;
         height: 100%;
-      }
-
-      /* Légère surcouche pour lisibilité du contenu */
-      #vanta-bg::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0.08);
-        pointer-events: none;
-      }
-
-      html.dark #vanta-bg::after {
-        background: rgba(0, 0, 0, 0.15);
       }
 
       @keyframes blur {
@@ -102,9 +94,13 @@ const { description, title } = Astro.props;
 
       @media (prefers-color-scheme: dark) {
         @keyframes blur {
-          from { border: 0px; }
+          from {
+            border: 0px;
+          }
           to {
-            box-shadow: 0px 5px 50px -5px rgba(0,0,0,0.1), 0px 0px 0 1px rgba(0,0,0,0.3);
+            box-shadow:
+              0px 5px 50px -5px rgba(0, 0, 0, 0.1),
+              0px 0px 0 1px rgba(0, 0, 0, 0.3);
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
             border-width: 1px;
@@ -119,15 +115,31 @@ const { description, title } = Astro.props;
       }
 
       @keyframes fade-in-up {
-        from { opacity: 0; translate: 0 20px; }
-        to   { opacity: 1; translate: 0 0; }
+        from {
+          opacity: 0;
+          translate: 0 20px;
+        }
+        to {
+          opacity: 1;
+          translate: 0 0;
+        }
       }
 
-      .anim-fade-in  { animation: fade-in-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both; }
-      .anim-delay-1  { animation-delay: 120ms; }
-      .anim-delay-2  { animation-delay: 260ms; }
-      .anim-delay-3  { animation-delay: 400ms; }
-      .anim-delay-4  { animation-delay: 540ms; }
+      .anim-fade-in {
+        animation: fade-in-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+      .anim-delay-1 {
+        animation-delay: 120ms;
+      }
+      .anim-delay-2 {
+        animation-delay: 260ms;
+      }
+      .anim-delay-3 {
+        animation-delay: 400ms;
+      }
+      .anim-delay-4 {
+        animation-delay: 540ms;
+      }
 
       .gradient-name {
         background: linear-gradient(135deg, #3b82f6 10%, #2563eb 90%);
@@ -153,7 +165,8 @@ const { description, title } = Astro.props;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .anim-fade-in, [data-section] {
+        .anim-fade-in,
+        [data-section] {
           animation: none !important;
           opacity: 1 !important;
           translate: none !important;
@@ -161,10 +174,19 @@ const { description, title } = Astro.props;
       }
 
       @keyframes pulse-glow {
-        0%, 100% { transform: scale(1.2);  opacity: 0.6; }
-        50%       { transform: scale(1.35); opacity: 0.9; }
+        0%,
+        100% {
+          transform: scale(1.2);
+          opacity: 0.6;
+        }
+        50% {
+          transform: scale(1.35);
+          opacity: 0.9;
+        }
       }
-      .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+      .animate-pulse-glow {
+        animation: pulse-glow 3s ease-in-out infinite;
+      }
 
       .social-pill {
         display: inline-flex;
@@ -174,15 +196,15 @@ const { description, title } = Astro.props;
         border-radius: 9999px;
         font-weight: 500;
         transition: all 0.2s;
-        background: rgba(255,255,255,0.15);
+        background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(8px);
         color: #1e293b;
-        border: 1px solid rgba(0,0,0,0.08);
+        border: 1px solid rgba(0, 0, 0, 0.08);
       }
       html.dark .social-pill {
-        background: rgba(255,255,255,0.07);
+        background: rgba(255, 255, 255, 0.07);
         color: #e2f0ef;
-        border-color: rgba(255,255,255,0.1);
+        border-color: rgba(255, 255, 255, 0.1);
       }
       .social-pill:hover {
         background: #3b82f6;
@@ -196,17 +218,15 @@ const { description, title } = Astro.props;
       }
     </style>
 
-    <!-- Script Vanta : init + écoute changement de thème -->
     <script is:inline>
       (function () {
-        // Couleurs selon le mode
         const DARK_CONFIG = {
-          color: 0x3fff82,       // vert clair (lignes/points)
-          backgroundColor: 0x151b3c, // bleu nuit foncé
+          color: 0x3fff82,
+          backgroundColor: 0x151b3c,
         };
         const LIGHT_CONFIG = {
-          color: 0x3cefa,        // bleu cyan
-          backgroundColor: 0xebebeb, // gris très clair
+          color: 0x3cefa,
+          backgroundColor: 0xebebeb,
         };
 
         let vantaEffect = null;
@@ -215,13 +235,25 @@ const { description, title } = Astro.props;
           return document.documentElement.classList.contains("dark");
         }
 
+        /* === Surcouche opacity === */
+        function updateOverlay() {
+          const overlay = document.getElementById("vanta-overlay");
+          if (!overlay) return;
+          if (isDark()) {
+            // Sombre : voile noir → atténue le réseau vert
+            overlay.style.background = "rgba(8, 12, 28, 0.7)";
+          } else {
+            // Clair : voile blanc → atténue le réseau bleu 
+            overlay.style.background = "rgba(240, 245, 255, 0.7)";  
+          }
+        }
+
         function initVanta() {
           if (vantaEffect) {
             vantaEffect.destroy();
             vantaEffect = null;
           }
 
-          // Attendre que VANTA et THREE soient disponibles
           if (typeof VANTA === "undefined" || typeof THREE === "undefined") {
             setTimeout(initVanta, 100);
             return;
@@ -246,16 +278,15 @@ const { description, title } = Astro.props;
             spacing: 15.0,
             showDots: true,
           });
+
+          // Mettre à jour la surcouche après chaque init
+          updateOverlay();
         }
 
-        // Init au chargement
         document.addEventListener("DOMContentLoaded", initVanta);
-
-        // Ré-init à chaque transition de page Astro
         document.addEventListener("astro:page-load", initVanta);
         document.addEventListener("astro:after-swap", initVanta);
 
-        // Observer les changements de classe dark sur <html>
         const observer = new MutationObserver(function (mutations) {
           mutations.forEach(function (mutation) {
             if (
