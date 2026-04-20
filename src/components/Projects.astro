@@ -9,6 +9,7 @@ const TAGS: Record<string, { name: string; class: string }> = {
   DJANGO:     { name: "Django",      class: "tag-django" },
   MongoDB:    { name: "MongoDB",     class: "tag-mongo" },
   FLUTTER:    { name: "Flutter",     class: "tag-flutter" },
+  SQLITE:     { name: "SQLite",      class: "tag-sqlite" },
   POSTGRESQL: { name: "PostgreSQL",  class: "tag-postgres" },
   MYSQL:      { name: "MySQL",       class: "tag-mysql" },
   PHP:        { name: "PHP",         class: "tag-php" },
@@ -264,7 +265,8 @@ const PROJECTS = projectsData.map((project) => ({
   :global(html:not(.dark)) .tag-flask     { background:#ecfdf5; color:#065f46; border-color:#6ee7b7; }
   :global(html:not(.dark)) .tag-django    { background:#f0fdf4; color:#166534; border-color:#86efac; }
   :global(html:not(.dark)) .tag-mongo     { background:#f0fdf4; color:#14532d; border-color:#86efac; }
-  :global(html:not(.dark)) .tag-flutter   { background:#eff6ff; color:#1d4ed8; border-color:#93c5fd; }
+  :global(html:not(.dark)) .tag-flutter   { background:#eff6ff; color:#1db9d8; border-color:#93c5fd; }
+  :global(html:not(.dark)) .tag-sqlite    { background:#ffffff; color:#129a4b; border-color:#74fdb4; }
   :global(html:not(.dark)) .tag-postgres  { background:#eff6ff; color:#1e40af; border-color:#93c5fd; }
   :global(html:not(.dark)) .tag-mysql     { background:#fff7ed; color:#9a3412; border-color:#fdba74; }
   :global(html:not(.dark)) .tag-php       { background:#eef2ff; color:#3730a3; border-color:#a5b4fc; }
@@ -278,6 +280,7 @@ const PROJECTS = projectsData.map((project) => ({
   :global(html.dark) .tag-django    { background:rgba(20,83,45,0.3);   color:#86efac; border-color:rgba(74,222,128,0.3); }
   :global(html.dark) .tag-mongo     { background:rgba(20,83,45,0.3);   color:#86efac; border-color:rgba(74,222,128,0.3); }
   :global(html.dark) .tag-flutter   { background:rgba(29,78,216,0.3);  color:#93c5fd; border-color:rgba(96,165,250,0.3); }
+  :global(html.dark) .tag-sqlite    {background:rgba(6,78,59,0.3);  color:#74fda8; border-color:rgba(60, 251, 133, 0.3); }
   :global(html.dark) .tag-postgres  { background:rgba(30,58,138,0.3);  color:#93c5fd; border-color:rgba(96,165,250,0.3); }
   :global(html.dark) .tag-mysql     { background:rgba(154,52,18,0.3);  color:#fdba74; border-color:rgba(251,146,60,0.3); }
   :global(html.dark) .tag-php       { background:rgba(55,48,163,0.3);  color:#a5b4fc; border-color:rgba(129,140,248,0.3); }

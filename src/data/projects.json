@@ -22,6 +22,15 @@
     "tags": ["DJANGO", "POSTGRESQL"],
     "github": "https://github.com/ValerioFaleson/Music-sream",
     "link": null
+  },
+
+  {
+    "title": "Application mobile de Gestion de Pharmacie",
+    "description": "Conception et réalisation complète d'une Application mobile pour gérer stocks, ventes et dates de péremption des produits pharmaceutiques. Interface intuitive et notifications.",
+    "image": "/projects/pharmacy.png",
+    "tags": ["FLUTTER", "SQLITE"],
+    "github": "https://github.com/Tsimanary/Projet-mobile",
+    "link": null
   }
  
 ]
