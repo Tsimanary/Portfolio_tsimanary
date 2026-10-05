@@ -1,0 +1,9 @@
+---
+// Texte qui « roule » au survol du lien ou bouton parent (styles dans Layout.astro)
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<span class="roll"><span data-text={text}>{text}</span></span>

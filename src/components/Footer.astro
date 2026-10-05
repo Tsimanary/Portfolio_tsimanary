@@ -1,52 +1,182 @@
 ---
+import RollText from "./RollText.astro";
 const currentYear = new Date().getFullYear();
+
+// Tuiles sociales, icônes au trait (style kstoimenov)
+const tiles = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/tsimanary-alliance-484059307/",
+    icon: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>',
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/Tsimanary",
+    icon: '<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.850v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>',
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/261344510268",
+    icon: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 8.5c0 3.3 2.7 6 6 6l.8-1.6-1.8-.9-.8.8c-1-.4-1.9-1.3-2.3-2.3l.8-.8-.9-1.8z"/>',
+  },
+  {
+    label: "Email",
+    href: "mailto:tsimanaryalliance@gmail.com",
+    icon: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  },
+  {
+    label: "CV",
+    href: "/Tsimanary-CV.pdf",
+    download: "Tsimanary-CV.pdf",
+    icon: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/>',
+  },
+];
 ---
 
-<footer
-  class="opacity-80 m-4 min-[375px]:pl-4 md:pl-0 mt-16 w-full mx-auto container lg:max-w-4xl md:max-w-2xl mb-10 flex justify-center relative"
->
-  <hr class="footer-divider" />
+<footer id="pied-de-page" class="site-footer relative w-full px-4">
+  <div class="footer-inner">
+    <!-- Grand titre -->
+    <h2 class="footer-title font-serif-accent" data-reveal>
+      Travaillons <em>ensemble</em>
+    </h2>
 
-  <!-- Contenu footer -->
-  <div class="footer-content">
-    <p class="footer-copy">
-      &copy; {currentYear}
-      <a href="/" class="footer-name">TSIMANARY Andriniaina Bonheur</a>. Tous
-      droits réservés.
-    </p>
-    <p class="footer-sub">Développé avec Astro & Tailwind CSS</p>
+    <!-- Accroche + bouton Contact -->
+    <div class="footer-row" data-reveal style="--i:1">
+      <div>
+        <p class="footer-lead">
+          Je conçois des applications utiles aux gens, et au business.
+        </p>
+        <a
+          href="mailto:tsimanaryalliance@gmail.com"
+          class="footer-note"
+          data-cursor="Écrire"
+        >
+          Vous préférez écrire ? Envoyez-moi un email.
+        </a>
+      </div>
+      <a href="/#contact" class="footer-contact-btn" data-magnetic>
+        <RollText text="Contact" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M7 7h10v10"></path><path d="M7 17 17 7"></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Tuiles sociales -->
+    <ul class="footer-tiles" data-reveal style="--i:2">
+      {
+        tiles.map((tile) => (
+          <li>
+            <a
+              href={tile.href}
+              class="footer-tile"
+              {...(tile.href.startsWith("http")
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+              {...(tile.download ? { download: tile.download } : {})}
+            >
+              <svg
+                class="tile-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                set:html={tile.icon}
+              />
+              <span class="tile-label">{tile.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Barre du bas -->
+    <div class="footer-bottom">
+      <p>&copy;{currentYear} TSIMANARY — Tous droits réservés</p>
+      <a href="/" class="footer-logo" aria-label="Retour à l'accueil">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M7 8l-4 4l4 4"></path><path d="M17 8l4 4l-4 4"></path><path
+            d="M14 4l-4 16"></path>
+        </svg>
+      </a>
+      <div class="footer-bottom-links">
+        <span>Développé avec Astro</span>
+      </div>
+    </div>
   </div>
 
   <!-- Boutons flottants -->
-  <div class="fixed bottom-6 right-6 flex flex-col gap-3">
-    <!-- Bouton WhatsApp -->
-    <a
-      href="https://wa.me/0344510268"
-      target="_blank"
-      class="w-12 h-12 flex items-center justify-center rounded-full shadow-lg
-             text-white bg-green-500 dark:bg-green-500 transition duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(79,223,138,0.7)]"
-      aria-label="WhatsApp"
-    >
-      <!-- Icône WhatsApp -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-        viewBox="0 0 16 16"
-        class="w-6 h-6"
-      >
-        <path
-          d="M13.601 2.326A7.953 7.953 0 0 0 8.002 0C3.582 0 .002 3.58.002 8c0 1.41.37 2.79 1.07 4.01L0 16l4.09-1.07A7.96 7.96 0 0 0 8.002 16c4.42 0 8-3.58 8-8 0-2.13-.83-4.14-2.401-5.674zM8.002 14.5a6.48 6.48 0 0 1-3.47-1.01l-.25-.15-2.43.64.65-2.37-.16-.25a6.48 6.48 0 0 1-1.01-3.46c0-3.58 2.92-6.5 6.5-6.5 1.74 0 3.38.68 4.61 1.91a6.48 6.48 0 0 1 1.89 4.59c0 3.58-2.92 6.5-6.5 6.5z"
-        ></path>
-      </svg>
-    </a>
+  <div class="fixed bottom-20 right-3 sm:bottom-6 sm:right-6 z-20 flex flex-col items-end gap-3">
+    <!-- WhatsApp : bouton rond + bulle « toujours dispo » -->
+    <div class="whatsapp-wrap">
+      <div class="whatsapp-bubble" id="whatsapp-bubble" role="status" hidden>
+        <a
+          href="https://wa.me/261344510268"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="whatsapp-bubble-link"
+          data-cursor="Écrire"
+        >
+          <span class="whatsapp-bubble-title">👋 Je suis toujours disponible sur WhatsApp</span>
+          <span class="whatsapp-bubble-text">Envie de discuter ? Écrivez-moi !</span>
+        </a>
+        <button type="button" class="whatsapp-bubble-close" aria-label="Fermer le message">×</button>
+      </div>
 
-    <!-- Bouton scroll top -->
+      <a
+        href="https://wa.me/261344510268"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-12 h-12 flex items-center justify-center rounded-full shadow-lg
+               text-white bg-green-500 dark:bg-green-500 transition duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(79,223,138,0.7)]"
+        aria-label="Me contacter sur WhatsApp"
+        data-cursor="WhatsApp"
+      >
+        <!-- Icône WhatsApp -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          class="w-6 h-6"
+          aria-hidden="true"
+        >
+          <path
+            d="M13.601 2.326A7.953 7.953 0 0 0 8.002 0C3.582 0 .002 3.58.002 8c0 1.41.37 2.79 1.07 4.01L0 16l4.09-1.07A7.96 7.96 0 0 0 8.002 16c4.42 0 8-3.58 8-8 0-2.13-.83-4.14-2.401-5.674zM8.002 14.5a6.48 6.48 0 0 1-3.47-1.01l-.25-.15-2.43.64.65-2.37-.16-.25a6.48 6.48 0 0 1-1.01-3.46c0-3.58 2.92-6.5 6.5-6.5 1.74 0 3.38.68 4.61 1.91a6.48 6.48 0 0 1 1.89 4.59c0 3.58-2.92 6.5-6.5 6.5z"
+          ></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Bouton scroll top (masqué sur mobile : la barre de navigation suffit) -->
     <button
-      onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-      class="w-12 h-12 flex items-center justify-center rounded-full shadow-lg
-             text-white bg-blue-500 dark:bg-blue-500 transition duration-300
-         hover:scale-110 hover:bg-blue-600
-         hover:shadow-[0_0_15px_rgba(59,130,246,0.7)]"
+      type="button"
+      data-scroll-top
+      class="w-12 h-12 hidden sm:flex items-center justify-center rounded-full shadow-lg
+             text-white bg-green-600 dark:bg-green-600 transition duration-300
+         hover:scale-110 hover:bg-green-700
+         hover:shadow-[0_0_15px_rgba(21, 128, 61,0.7)]"
       aria-label="Remonter"
     >
       <!-- Icône flèche -->
@@ -63,105 +193,337 @@ const currentYear = new Date().getFullYear();
     </button>
   </div>
 </footer>
+
+<script>
+  // Bulle « toujours dispo sur WhatsApp » : apparaît une fois le Hero dépassé (pour ne pas
+  // recouvrir le texte d'introduction), fermable, une fois par visite
+  const KEY = "whatsapp-bubble-closed";
+  const bubble = document.getElementById("whatsapp-bubble");
+  let closed = false;
+  try {
+    closed = sessionStorage.getItem(KEY) === "1";
+  } catch {}
+
+  if (bubble && !closed) {
+    const onScroll = () => {
+      if (window.scrollY < window.innerHeight * 0.6) return;
+      window.removeEventListener("scroll", onScroll);
+      window.setTimeout(() => {
+        bubble.hidden = false;
+        // Sur mobile, la bulle se referme seule pour ne pas masquer le contenu
+        if (window.matchMedia("(max-width: 640px)").matches) {
+          window.setTimeout(() => (bubble.hidden = true), 8000);
+        }
+      }, 600);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    bubble.querySelector(".whatsapp-bubble-close")?.addEventListener("click", () => {
+      bubble.hidden = true;
+      try {
+        sessionStorage.setItem(KEY, "1");
+      } catch {}
+    });
+  }
+</script>
+
 <style>
-  /* === Contenu === */
-  .footer-content {
+  .site-footer {
+    margin-top: 8rem;
+    /* Laisse la lueur cannelée apparaître sous le contenu */
+    padding-bottom: 28vh;
+    color: #111111;
+  }
+  html.dark .site-footer {
+    color: #ffffff;
+  }
+  .footer-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+
+  /* === Bulle WhatsApp flottante === */
+  .whatsapp-wrap {
+    position: relative;
+  }
+  .whatsapp-bubble {
+    position: absolute;
+    right: calc(100% + 14px);
+    bottom: 0.25rem;
+    width: max-content;
+    max-width: min(17rem, calc(100vw - 6rem));
+    padding: 0.75rem 2rem 0.75rem 0.95rem;
+    border-radius: 14px 14px 4px 14px;
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid rgba(17, 17, 17, 0.08);
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.35);
+    animation: bubble-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .whatsapp-bubble[hidden] {
+    display: none;
+  }
+  :global(html.dark) .whatsapp-bubble {
+    background: #1a1d1b;
+    color: #f5f5f5;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  /* Petite pointe vers le bouton */
+  .whatsapp-bubble::after {
+    content: "";
+    position: absolute;
+    right: -6px;
+    bottom: 14px;
+    width: 12px;
+    height: 12px;
+    background: inherit;
+    border-right: inherit;
+    border-top: inherit;
+    transform: rotate(45deg);
+  }
+  .whatsapp-bubble-link {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-    padding-bottom: 2.5rem;
-    text-align: center;
-  }
-
-  .footer-copy {
-    font-size: 14px;
-    margin: 0;
-    color: #475569;
-  }
-  html.dark .footer-copy {
-    color: #94a3b8;
-  }
-
-  .footer-name {
-    font-weight: 700;
+    gap: 2px;
+    color: inherit;
     text-decoration: none;
-    color: #3b82f6;
-    transition: opacity 0.2s;
   }
-  html.dark .footer-name {
+  .whatsapp-bubble-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .whatsapp-bubble-text {
+    font-size: 13px;
+    color: #15803d;
+    font-weight: 600;
+  }
+  :global(html.dark) .whatsapp-bubble-text {
     color: #4ade80;
   }
-  .footer-name:hover {
-    opacity: 0.75;
-    text-decoration: underline;
+  .whatsapp-bubble-close {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    border-radius: 9999px;
+    background: transparent;
+    color: inherit;
+    font-size: 1.1rem;
+    line-height: 1;
+    opacity: 0.55;
+    cursor: pointer;
+  }
+  .whatsapp-bubble-close:hover {
+    opacity: 1;
+    background: rgba(127, 127, 127, 0.15);
+  }
+  @keyframes bubble-in {
+    from {
+      opacity: 0;
+      transform: translateX(10px) scale(0.92);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-bubble {
+      animation: none;
+    }
   }
 
-  .footer-sub {
-    font-size: 12px;
+  /* === Grand titre === */
+  .footer-title {
     margin: 0;
-    color: #94a3b8;
+    font-size: clamp(3.5rem, 11vw, 9rem);
+    line-height: 0.95;
   }
-  html.dark .footer-sub {
-    color: #475569;
+  .footer-title em {
+    font-style: italic;
+    color: var(--accent);
   }
 
-  /* === Boutons flottants === */
-  .float-btn {
-    width: 48px;
-    height: 48px;
+  /* === Accroche + bouton === */
+  .footer-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    color: #ffffff;
-    transition:
-      transform 0.25s,
-      box-shadow 0.25s;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin: 3.5rem 0 3rem;
   }
-  .float-btn:hover {
-    transform: scale(1.12);
+  .footer-lead {
+    margin: 0 0 0.25rem;
+    font-size: 17px;
+    color: #737373;
   }
-
-  /* WhatsApp */
-  .whatsapp-btn {
-    background: #22c55e;
+  html.dark .footer-lead {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .footer-note {
+    font-size: 17px;
+    font-weight: 500;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .footer-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 2.25rem;
+    border: 1.5px solid currentColor;
+    border-radius: 9999px;
+    font-size: 1.5rem;
+    color: inherit;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
   }
-  .whatsapp-btn:hover {
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.65);
+  .footer-contact-btn svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .footer-contact-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+  }
+  html.dark .footer-contact-btn:hover {
+    color: #0b1a10;
   }
 
-  /* Scroll top */
-  .scroll-btn {
-    background: #3b82f6;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+  /* === Tuiles === */
+  .footer-tiles {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(17, 17, 17, 0.15);
+    border-radius: 14px;
+    overflow: hidden;
   }
-  html.dark .scroll-btn {
-    background: #4ade80;
-    color: #052e16;
-    box-shadow: 0 4px 14px rgba(74, 222, 128, 0.35);
+  html.dark .footer-tiles {
+    border-color: rgba(255, 255, 255, 0.16);
   }
-  .scroll-btn:hover {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.65);
+  .footer-tiles li + li {
+    border-left: 1px solid rgba(17, 17, 17, 0.15);
   }
-  html.dark .scroll-btn:hover {
-    box-shadow: 0 0 20px rgba(74, 222, 128, 0.55);
+  html.dark .footer-tiles li + li {
+    border-left-color: rgba(255, 255, 255, 0.16);
   }
-  /* === Séparateur === */
-  .footer-divider {
+  .footer-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 15rem;
+    padding: 2.5rem 2rem 2.75rem;
+    color: inherit;
+    text-decoration: none;
+    isolation: isolate;
+    transition: color 0.3s;
+  }
+  /* Dégradé qui remplit la tuile au survol */
+  .footer-tile::before {
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    border: none;
-    border-top: 1px solid rgba(59, 130, 246, 0.2);
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, #166534 0%, #15803d 50%, #86efac 100%);
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  html.dark .footer-tile::before {
+    background: linear-gradient(135deg, #12e04f 0%, #78e82a 50%, #b8f7a0 100%);
+  }
+  .footer-tile:hover::before,
+  .footer-tile:focus-visible::before {
+    opacity: 1;
+  }
+  .footer-tile:hover,
+  .footer-tile:focus-visible {
+    color: #ffffff;
+  }
+  html.dark .footer-tile:hover,
+  html.dark .footer-tile:focus-visible {
+    color: #0b1a10;
+  }
+  .tile-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .tile-label {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  /* === Barre du bas === */
+  .footer-bottom {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 4rem;
+    font-size: 15px;
+    color: #737373;
+  }
+  html.dark .footer-bottom {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .footer-bottom p {
     margin: 0;
   }
-  html.dark .footer-divider {
-    border-top-color: rgba(74, 222, 128, 0.15);
+  .footer-logo {
+    display: flex;
+    color: #111111;
+  }
+  html.dark .footer-logo {
+    color: #ffffff;
+  }
+  .footer-logo svg {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .footer-bottom-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-tiles {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-tiles li {
+      border-top: 1px solid rgba(17, 17, 17, 0.15);
+    }
+    html.dark .footer-tiles li {
+      border-top-color: rgba(255, 255, 255, 0.16);
+    }
+    .footer-tiles li:nth-child(-n + 2) {
+      border-top: none;
+    }
+    .footer-tiles li:nth-child(odd) {
+      border-left: none;
+    }
+    .footer-tiles li:last-child {
+      grid-column: span 2;
+    }
+    .footer-tile {
+      height: 9rem;
+      padding: 1.5rem;
+    }
+    .footer-contact-btn {
+      font-size: 1.15rem;
+      padding: 0.9rem 1.75rem;
+    }
+    .footer-bottom {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+    .footer-bottom-links {
+      justify-content: center;
+    }
   }
 </style>

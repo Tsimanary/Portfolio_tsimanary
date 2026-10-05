@@ -9,21 +9,27 @@ import Contact from "@/components/Contact.astro";
 import SectionContainer from "@/components/SectionContainer.astro";
 import Hero from "@/components/Hero.astro";
 import TitleSection from "@/components/TitleSection.astro";
+import Stats from "@/components/Stats.astro";
+import BigMarquee from "@/components/BigMarquee.astro";
 ---
 <Layout
   title="TSIMANARY — Développeur Full-Stack"
-  description="Développeur Full-Stack spécialisé en Laravel, Flutter, Flask et React. Découvrez mon parcours, mes projets et comment me contacter."
+  description="Développeur Full-Stack spécialisé en Laravel, React, Flutter, Flask et Django. Découvrez mon parcours, mes projets et comment me contacter."
 >
   <main class="px-4">
-    <SectionContainer class="py-16 md:py-36">
+    <SectionContainer class="hero-section min-h-[100svh] flex flex-col justify-center pt-16 pb-[22vh]">
       <Hero />
     </SectionContainer>
 
     <div class="space-y-24">
 
+      <div class="w-full mx-auto container md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+        <Stats />
+      </div>
+
       <SectionContainer id="experience">
         <TitleSection>
-          <Briefcase class="size-8 text-[#4fdf8a] text-3xl font-bold" />
+          <Briefcase class="size-8 text-[#4ade80] text-3xl font-bold" />
           <span class="text-black dark:text-white">
             Expérience professionnelle et Formation
           </span>
@@ -33,7 +39,7 @@ import TitleSection from "@/components/TitleSection.astro";
 
       <SectionContainer id="projets">
         <TitleSection>
-          <span class="text-blue-500 dark:text-green-400 text-3xl font-bold">&lt;/&gt;</span>
+          <span class="text-green-600 dark:text-green-400 text-3xl font-bold">&lt;/&gt;</span>
           Projets
         </TitleSection>
         <Projects />
@@ -41,16 +47,20 @@ import TitleSection from "@/components/TitleSection.astro";
 
       <SectionContainer id="about-me">
         <TitleSection>
-          <UserHeart class="size-8 text-[#4fdf8a] text-3xl font-bold" />
+          <UserHeart class="size-8 text-[#4ade80] text-3xl font-bold" />
           <span class="text-black dark:text-white">Sur moi</span>
         </TitleSection>
         <AboutMe />
       </SectionContainer>
 
+      <div class="-mx-4">
+        <BigMarquee />
+      </div>
+
       <!-- Section Contact avant le footer -->
       <SectionContainer id="contact">
         <TitleSection>
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-8 text-blue-500 dark:text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-8 text-green-600 dark:text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z"/>
           </svg>
           <span class="text-black dark:text-white">Contact</span>

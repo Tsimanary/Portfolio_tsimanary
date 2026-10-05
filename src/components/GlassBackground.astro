@@ -1,0 +1,19 @@
+---
+// Fond « verre cannelé » inspiré de kstoimenov.com (styles dans Layout.astro).
+// top : derrière le Hero, s'efface vers le bas ; bottom : lueur sous le pied de page.
+interface Props {
+  position?: "top" | "bottom";
+}
+const { position = "top" } = Astro.props;
+---
+
+<div class={`glass-bg glass-bg--${position}`} aria-hidden="true">
+  <div class="glass-blobs">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+  </div>
+  <div class="glass-flutes"></div>
+  <div class="glass-fade"></div>
+</div>

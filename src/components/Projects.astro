@@ -2,6 +2,7 @@
 import ExternalLink from "./icons/ExternalLink.astro";
 import GitHub from "./icons/GitHub.astro";
 import projectsData from "@/data/projects.json";
+import RollText from "./RollText.astro";
 
 const TAGS: Record<string, { name: string; class: string }> = {
   LARAVEL:    { name: "Laravel",     class: "tag-laravel" },
@@ -49,14 +50,20 @@ const PROJECTS = projectsData.map((project) => ({
 ---
 
 <div class="projects-grid">
-  {PROJECTS.map(({ title, description, tagsData, link, github, category, cardIcon, hostname }) => (
-    <article class="project-card">
+  {PROJECTS.map(({ title, description, tagsData, link, github, category, cardIcon, hostname }, i) => (
+    <article class="project-card" data-reveal style={`--i:${i}`}>
       <!-- En-tête : icône + badge statut -->
       <div class="card-header">
         <div class="card-icon" set:html={cardIcon} />
         <div class="card-badge">
-          <span class="badge-dot" />
-          Live
+          {link ? (
+            <span class="badge-status">
+              <span class="badge-dot" />
+              En ligne
+            </span>
+          ) : (
+            <span class="badge-status badge-status-code">Code source</span>
+          )}
           <span class="badge-category">{category}</span>
         </div>
       </div>
@@ -84,15 +91,27 @@ const PROJECTS = projectsData.map((project) => ({
       <!-- Liens -->
       <footer class="card-footer">
         {github && (
-          <a href={github} target="_blank" rel="noopener noreferrer" class="card-link">
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={["card-link", { "card-link-stretch": !link }]}
+            {...(!link ? { "data-cursor": "Code" } : {})}
+          >
             <GitHub class="size-4" />
-            GitHub
+            <RollText text="GitHub" />
           </a>
         )}
         {link && (
-          <a href={link} target="_blank" rel="noopener noreferrer" class="card-link card-link-primary">
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card-link card-link-primary card-link-stretch"
+            data-cursor="Voir"
+          >
             <ExternalLink class="size-4" />
-            Voir le projet
+            <RollText text="Voir le projet" />
           </a>
         )}
       </footer>
@@ -107,17 +126,26 @@ const PROJECTS = projectsData.map((project) => ({
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
   }
+  /* Grand écran : 2 × 2 pour éviter une carte seule sur la dernière ligne */
+  @media (min-width: 1024px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 
   /* === Carte === */
   .project-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
     padding: 1.25rem;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.06);
-    background: #0f172a;
-    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    background: #141716;
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s,
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 90ms),
+      translate 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 90ms);
   }
   .project-card:hover {
     transform: translateY(-3px);
@@ -125,17 +153,17 @@ const PROJECTS = projectsData.map((project) => ({
 
   /* Mode clair */
   :global(html:not(.dark)) .project-card {
-    background: #f8fafc;
-    border-color: rgba(59,130,246,0.15);
+    background: #ffffff;
+    border-color: rgba(21, 128, 61,0.15);
   }
   :global(html:not(.dark)) .project-card:hover {
-    border-color: rgba(59,130,246,0.4);
-    box-shadow: 0 16px 48px -8px rgba(59,130,246,0.2);
+    border-color: rgba(21, 128, 61,0.4);
+    box-shadow: 0 16px 48px -8px rgba(21, 128, 61,0.2);
   }
 
   /* Mode sombre */
   :global(html.dark) .project-card {
-    background: #0f172a;
+    background: #141716;
     border-color: rgba(255,255,255,0.06);
   }
   :global(html.dark) .project-card:hover {
@@ -160,13 +188,13 @@ const PROJECTS = projectsData.map((project) => ({
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,0.05);
-    color: #94a3b8;
+    color: #a3a3a3;
     border: 1px solid rgba(255,255,255,0.08);
   }
   :global(html:not(.dark)) .card-icon {
-    background: rgba(59,130,246,0.08);
-    color: #3b82f6;
-    border-color: rgba(59,130,246,0.15);
+    background: rgba(21, 128, 61,0.08);
+    color: #15803d;
+    border-color: rgba(21, 128, 61,0.15);
   }
   :global(html.dark) .card-icon {
     background: rgba(34,197,94,0.08);
@@ -183,17 +211,24 @@ const PROJECTS = projectsData.map((project) => ({
     font-size: 12px;
     font-weight: 600;
   }
+  .badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .badge-status-code {
+    color: #737373;
+  }
   .badge-dot {
     display: inline-block;
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: #22c55e;
-    margin-bottom: 2px;
     box-shadow: 0 0 6px rgba(34,197,94,0.6);
   }
   :global(html:not(.dark)) .card-badge {
-    color: #3b82f6;
+    color: #15803d;
   }
   :global(html.dark) .card-badge {
     color: #4ade80;
@@ -201,21 +236,21 @@ const PROJECTS = projectsData.map((project) => ({
   .badge-category {
     font-size: 10px;
     font-weight: 500;
-    color: #64748b;
+    color: #737373;
   }
   :global(html.dark) .badge-category {
-    color: #475569;
+    color: #525252;
   }
 
   /* === Titre === */
   .card-title {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #1e293b;
+    color: #171717;
     margin: 0;
   }
   :global(html.dark) .card-title {
-    color: #f1f5f9;
+    color: #f5f5f5;
   }
 
   /* === URL === */
@@ -227,7 +262,7 @@ const PROJECTS = projectsData.map((project) => ({
   }
   .card-url:hover { opacity: 0.8; }
   :global(html:not(.dark)) .card-url {
-    color: #3b82f6;
+    color: #15803d;
   }
   :global(html.dark) .card-url {
     color: #4ade80;
@@ -240,8 +275,8 @@ const PROJECTS = projectsData.map((project) => ({
     flex: 1;
     margin: 0;
   }
-  :global(html:not(.dark)) .card-desc { color: #475569; }
-  :global(html.dark) .card-desc       { color: #94a3b8; }
+  :global(html:not(.dark)) .card-desc { color: #525252; }
+  :global(html.dark) .card-desc       { color: #a3a3a3; }
 
   /* === Tags === */
   .card-tags {
@@ -261,18 +296,8 @@ const PROJECTS = projectsData.map((project) => ({
   }
 
   /* Couleurs des tags — mode clair */
-  :global(html:not(.dark)) .tag-laravel   { background:#fee2e2; color:#991b1b; border-color:#fca5a5; }
-  :global(html:not(.dark)) .tag-flask     { background:#ecfdf5; color:#065f46; border-color:#6ee7b7; }
-  :global(html:not(.dark)) .tag-django    { background:#f0fdf4; color:#166534; border-color:#86efac; }
-  :global(html:not(.dark)) .tag-mongo     { background:#f0fdf4; color:#14532d; border-color:#86efac; }
-  :global(html:not(.dark)) .tag-flutter   { background:#eff6ff; color:#1db9d8; border-color:#93c5fd; }
-  :global(html:not(.dark)) .tag-sqlite    { background:#ffffff; color:#129a4b; border-color:#74fdb4; }
-  :global(html:not(.dark)) .tag-postgres  { background:#eff6ff; color:#1e40af; border-color:#93c5fd; }
-  :global(html:not(.dark)) .tag-mysql     { background:#fff7ed; color:#9a3412; border-color:#fdba74; }
-  :global(html:not(.dark)) .tag-php       { background:#eef2ff; color:#3730a3; border-color:#a5b4fc; }
-  :global(html:not(.dark)) .tag-react     { background:#ecfeff; color:#155e75; border-color:#67e8f9; }
-  :global(html:not(.dark)) .tag-node      { background:#f0fdf4; color:#166534; border-color:#86efac; }
-  :global(html:not(.dark)) .tag-default   { background:#f1f5f9; color:#475569; border-color:#cbd5e1; }
+  /* Mode clair : tous les tags dans le même style neutre */
+  :global(html:not(.dark)) .tag { background:#f4f4f5; color:#262626; border-color:rgba(17,17,17,0.12); }
 
   /* Couleurs des tags — mode sombre */
   :global(html.dark) .tag-laravel   { background:rgba(153,27,27,0.3);  color:#fca5a5; border-color:rgba(239,68,68,0.3); }
@@ -309,9 +334,22 @@ const PROJECTS = projectsData.map((project) => ({
     padding: 4px 0;
     transition: opacity 0.2s;
   }
-  .card-link:hover { opacity: 0.7; }
-  :global(html:not(.dark)) .card-link         { color: #64748b; }
-  :global(html:not(.dark)) .card-link-primary  { color: #3b82f6; }
-  :global(html.dark) .card-link               { color: #64748b; }
+  .card-link:hover { opacity: 0.85; }
+
+  /* Toute la carte est cliquable via le lien principal ; les autres liens restent au-dessus */
+  .card-link-stretch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+  }
+  .card-link:not(.card-link-stretch),
+  .card-url {
+    position: relative;
+    z-index: 1;
+  }
+  :global(html:not(.dark)) .card-link         { color: #737373; }
+  :global(html:not(.dark)) .card-link-primary  { color: #15803d; }
+  :global(html.dark) .card-link               { color: #737373; }
   :global(html.dark) .card-link-primary        { color: #4ade80; }
 </style>

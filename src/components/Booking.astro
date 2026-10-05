@@ -1,0 +1,908 @@
+---
+// Prise de rendez-vous en 3 étapes : date → créneau → coordonnées.
+// Les jours et créneaux sont générés en JS : les styles sont donc globaux (préfixe .bk-)
+// pour s'appliquer aussi aux éléments créés dynamiquement.
+const SLOTS = {
+  Matin: ["08:00", "09:00", "10:00", "11:00"],
+  "Après-midi": ["13:00", "14:00", "15:00", "16:00", "17:00"],
+};
+const TYPES = [
+  { value: "visio", label: "Visio", detail: "Google Meet" },
+  { value: "telephone", label: "Appel", detail: "Téléphone" },
+  { value: "whatsapp", label: "WhatsApp", detail: "Appel ou message" },
+];
+---
+
+<div class="bk" id="booking">
+  <!-- Étapes -->
+  <ol class="bk-steps" aria-label="Étapes de la prise de rendez-vous">
+    <li class="bk-step is-current" data-step="1"><span>1</span> Date</li>
+    <li class="bk-step" data-step="2"><span>2</span> Créneau</li>
+    <li class="bk-step" data-step="3"><span>3</span> Coordonnées</li>
+  </ol>
+
+  <div class="bk-main">
+    <!-- 1. Calendrier -->
+    <section class="bk-block" aria-labelledby="bk-cal-title">
+      <p class="bk-label" id="bk-cal-title">Choisissez une date</p>
+      <div class="bk-cal">
+        <div class="bk-cal-head">
+          <button type="button" class="bk-cal-nav" id="bk-prev" aria-label="Mois précédent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+          </button>
+          <span class="bk-cal-month" id="bk-month" aria-live="polite"></span>
+          <button type="button" class="bk-cal-nav" id="bk-next" aria-label="Mois suivant">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+          </button>
+        </div>
+        <div class="bk-cal-weekdays" aria-hidden="true">
+          <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+        </div>
+        <div class="bk-cal-grid" id="bk-grid" role="grid"></div>
+        <p class="bk-hint">Du lundi au vendredi · les week-ends ne sont pas disponibles</p>
+      </div>
+    </section>
+
+    <!-- 2. Créneaux + type -->
+    <section class="bk-block bk-slots-block" aria-labelledby="bk-slot-title">
+      <p class="bk-label" id="bk-slot-title">Choisissez un créneau</p>
+      <p class="bk-placeholder" id="bk-slot-placeholder">Sélectionnez d'abord une date dans le calendrier.</p>
+
+      <div id="bk-slots" hidden>
+        <p class="bk-selected-date" id="bk-selected-date"></p>
+        {
+          Object.entries(SLOTS).map(([period, times]) => (
+            <div class="bk-period">
+              <p class="bk-period-label">{period}</p>
+              <div class="bk-slot-row">
+                {times.map((time) => (
+                  <button type="button" class="bk-slot" data-time={time} aria-pressed="false">
+                    <span class="bk-slot-time">{time}</span>
+                    <span class="bk-slot-local" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+        <p class="bk-hint" id="bk-tz-hint">Heures de Madagascar (UTC+3) · durée 30 min</p>
+
+        <p class="bk-label bk-label-spaced">Type de rendez-vous</p>
+        <div class="bk-types" role="radiogroup" aria-label="Type de rendez-vous">
+          {
+            TYPES.map((type, i) => (
+              <label class="bk-type">
+                <input type="radio" name="bk-type" value={type.value} checked={i === 0} />
+                <span class="bk-type-label">{type.label}</span>
+                <span class="bk-type-detail">{type.detail}</span>
+              </label>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 3. Coordonnées -->
+  <section class="bk-block bk-details" id="bk-details" hidden aria-labelledby="bk-details-title">
+    <p class="bk-label" id="bk-details-title">Vos coordonnées</p>
+
+    <div class="bk-recap" id="bk-recap"></div>
+
+    <div class="bk-fields">
+      <div class="bk-field">
+        <label for="bk-nom">Nom complet *</label>
+        <input id="bk-nom" type="text" autocomplete="name" placeholder="Votre nom" />
+        <span class="bk-error" data-for="bk-nom">Indiquez votre nom.</span>
+      </div>
+      <div class="bk-field">
+        <label for="bk-email">Email *</label>
+        <input id="bk-email" type="email" autocomplete="email" placeholder="exemple@email.com" />
+        <span class="bk-error" data-for="bk-email">Indiquez une adresse email valide.</span>
+      </div>
+      <div class="bk-field">
+        <label for="bk-tel">Téléphone <span id="bk-tel-required">(facultatif)</span></label>
+        <input id="bk-tel" type="tel" autocomplete="tel" placeholder="+261 34 00 000 00" />
+        <span class="bk-error" data-for="bk-tel">Indiquez un numéro pour un appel ou WhatsApp.</span>
+      </div>
+      <div class="bk-field bk-field-wide">
+        <label for="bk-sujet">Objet du rendez-vous</label>
+        <textarea id="bk-sujet" rows="3" placeholder="Ex. : poste de développeur full-stack, projet d'application mobile…"></textarea>
+      </div>
+    </div>
+
+    <div class="bk-actions">
+      <button type="button" class="bk-btn bk-btn-outline" id="bk-send-email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        Envoyer par email
+      </button>
+      <button type="button" class="bk-btn bk-btn-whatsapp" id="bk-send-whatsapp">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"></path></svg>
+        Envoyer via WhatsApp
+      </button>
+    </div>
+  </section>
+
+  <!-- Confirmation -->
+  <section class="bk-done" id="bk-done" hidden role="status">
+    <div class="bk-done-icon" aria-hidden="true">✓</div>
+    <p class="bk-done-title">Votre demande est prête à être envoyée</p>
+    <p class="bk-done-text" id="bk-done-text"></p>
+    <div class="bk-actions">
+      <button type="button" class="bk-btn bk-btn-primary" id="bk-ics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"></path></svg>
+        Ajouter à mon agenda
+      </button>
+      <button type="button" class="bk-btn bk-btn-ghost" id="bk-restart">Nouvelle demande</button>
+    </div>
+  </section>
+</div>
+
+<script>
+  const EMAIL = "tsimanaryalliance@gmail.com";
+  const WHATSAPP = "261344510268";
+  const MG_OFFSET = 3; // Madagascar : UTC+3, sans heure d'été
+  const DURATION_MIN = 30;
+  const MIN_NOTICE_H = 2; // délai minimum avant un créneau du jour même
+  const MONTHS_AHEAD = 2;
+  const TYPE_LABELS: Record<string, string> = {
+    visio: "Visio (Google Meet)",
+    telephone: "Appel téléphonique",
+    whatsapp: "WhatsApp",
+  };
+
+  const root = document.getElementById("booking");
+  if (root) initBooking(root);
+
+  function initBooking(root: HTMLElement) {
+    const $ = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const grid = $("#bk-grid");
+    const monthLabel = $("#bk-month");
+    const prevBtn = $<HTMLButtonElement>("#bk-prev");
+    const nextBtn = $<HTMLButtonElement>("#bk-next");
+    const slotsBox = $("#bk-slots");
+    const slotPlaceholder = $("#bk-slot-placeholder");
+    const selectedDateLabel = $("#bk-selected-date");
+    const details = $("#bk-details");
+    const recap = $("#bk-recap");
+    const done = $("#bk-done");
+    const slots = Array.from(root.querySelectorAll<HTMLButtonElement>(".bk-slot"));
+
+    // Date du jour à Madagascar (le calendrier raisonne en heure de Madagascar)
+    const nowMg = () => new Date(Date.now() + MG_OFFSET * 3600_000);
+    const todayMg = () => {
+      const n = nowMg();
+      return new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate()));
+    };
+
+    let view = todayMg(); // 1er jour du mois affiché (UTC)
+    view = new Date(Date.UTC(view.getUTCFullYear(), view.getUTCMonth(), 1));
+    const firstMonth = view.getTime();
+    const lastMonth = Date.UTC(view.getUTCFullYear(), view.getUTCMonth() + MONTHS_AHEAD, 1);
+
+    let selectedDate: Date | null = null; // minuit UTC du jour choisi
+    let selectedTime: string | null = null;
+
+    const fmtDate = (d: Date) =>
+      d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+    const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+    // Instant réel (UTC) d'un créneau donné en heure de Madagascar
+    const slotInstant = (day: Date, time: string) => {
+      const [h, m] = time.split(":").map(Number);
+      return new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), h - MG_OFFSET, m));
+    };
+    const visitorIsMg = -new Date().getTimezoneOffset() === MG_OFFSET * 60;
+
+    function setStep(step: number) {
+      root.querySelectorAll<HTMLElement>(".bk-step").forEach((el) => {
+        const n = Number(el.dataset.step);
+        el.classList.toggle("is-current", n === step);
+        el.classList.toggle("is-done", n < step);
+      });
+    }
+
+    function renderCalendar() {
+      const y = view.getUTCFullYear();
+      const m = view.getUTCMonth();
+      monthLabel.textContent = capitalize(view.toLocaleDateString("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" }));
+      prevBtn.disabled = view.getTime() <= firstMonth;
+      nextBtn.disabled = view.getTime() >= lastMonth;
+
+      const today = todayMg().getTime();
+      const offset = (new Date(Date.UTC(y, m, 1)).getUTCDay() + 6) % 7; // lundi = 0
+      const days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      grid.innerHTML = "";
+
+      for (let i = 0; i < offset; i++) {
+        const empty = document.createElement("span");
+        empty.className = "bk-day is-empty";
+        grid.appendChild(empty);
+      }
+      for (let d = 1; d <= days; d++) {
+        const date = new Date(Date.UTC(y, m, d));
+        const weekend = date.getUTCDay() === 0 || date.getUTCDay() === 6;
+        const past = date.getTime() < today;
+        const full = !past && !weekend && availableSlots(date).length === 0;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "bk-day";
+        btn.textContent = String(d);
+        btn.setAttribute("aria-label", capitalize(fmtDate(date)) + (weekend ? " — indisponible" : ""));
+        if (past || weekend || full) {
+          btn.disabled = true;
+          btn.classList.add(weekend ? "is-weekend" : "is-past");
+        }
+        if (date.getTime() === today) btn.classList.add("is-today");
+        const isSelected = selectedDate?.getTime() === date.getTime();
+        btn.classList.toggle("is-selected", isSelected);
+        btn.setAttribute("aria-pressed", String(isSelected));
+        btn.addEventListener("click", () => selectDate(date));
+        grid.appendChild(btn);
+      }
+    }
+
+    function availableSlots(day: Date) {
+      const limit = Date.now() + MIN_NOTICE_H * 3600_000;
+      return slots.filter((s) => slotInstant(day, s.dataset.time!).getTime() > limit);
+    }
+
+    function selectDate(date: Date) {
+      selectedDate = date;
+      selectedTime = null;
+      renderCalendar();
+      selectedDateLabel.textContent = capitalize(fmtDate(date));
+      const available = new Set(availableSlots(date));
+      slots.forEach((s) => {
+        s.disabled = !available.has(s);
+        s.classList.remove("is-selected");
+        s.setAttribute("aria-pressed", "false");
+        // Heure locale du visiteur s'il n'est pas à Madagascar
+        const local = s.querySelector<HTMLElement>(".bk-slot-local")!;
+        local.textContent = visitorIsMg
+          ? ""
+          : slotInstant(date, s.dataset.time!).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + " chez vous";
+      });
+      slotPlaceholder.hidden = true;
+      slotsBox.hidden = false;
+      details.hidden = true;
+      setStep(2);
+    }
+
+    slots.forEach((s) =>
+      s.addEventListener("click", () => {
+        if (s.disabled) return;
+        selectedTime = s.dataset.time!;
+        slots.forEach((o) => {
+          o.classList.toggle("is-selected", o === s);
+          o.setAttribute("aria-pressed", String(o === s));
+        });
+        details.hidden = false;
+        updateRecap();
+        setStep(3);
+        details.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }),
+    );
+
+    const meetingType = () => root.querySelector<HTMLInputElement>('input[name="bk-type"]:checked')!.value;
+    root.querySelectorAll<HTMLInputElement>('input[name="bk-type"]').forEach((r) =>
+      r.addEventListener("change", () => {
+        updateRecap();
+        const needsPhone = meetingType() !== "visio";
+        $("#bk-tel-required").textContent = needsPhone ? "*" : "(facultatif)";
+      }),
+    );
+
+    function endTime(time: string) {
+      const [h, m] = time.split(":").map(Number);
+      const total = h * 60 + m + DURATION_MIN;
+      return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+    }
+
+    function summary() {
+      if (!selectedDate || !selectedTime) return "";
+      return `${capitalize(fmtDate(selectedDate))}, ${selectedTime} – ${endTime(selectedTime)} (heure de Madagascar) · ${TYPE_LABELS[meetingType()]}`;
+    }
+
+    function updateRecap() {
+      if (!selectedDate || !selectedTime) return;
+      recap.innerHTML = "";
+      const icon = document.createElement("span");
+      icon.className = "bk-recap-icon";
+      icon.textContent = "📅";
+      const text = document.createElement("span");
+      text.textContent = summary();
+      recap.append(icon, text);
+    }
+
+    // --- Validation ---
+    const field = (id: string) => root.querySelector<HTMLInputElement | HTMLTextAreaElement>("#" + id)!;
+    function showError(id: string, show: boolean) {
+      field(id).classList.toggle("is-invalid", show);
+      root.querySelector<HTMLElement>(`.bk-error[data-for="${id}"]`)!.classList.toggle("is-visible", show);
+    }
+    function validate() {
+      const nom = field("bk-nom").value.trim();
+      const email = field("bk-email").value.trim();
+      const tel = field("bk-tel").value.trim();
+      const okNom = nom.length > 1;
+      const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const okTel = meetingType() === "visio" || tel.replace(/\D/g, "").length >= 8;
+      showError("bk-nom", !okNom);
+      showError("bk-email", !okEmail);
+      showError("bk-tel", !okTel);
+      const firstInvalid = !okNom ? "bk-nom" : !okEmail ? "bk-email" : !okTel ? "bk-tel" : null;
+      if (firstInvalid) field(firstInvalid).focus();
+      return !firstInvalid;
+    }
+    ["bk-nom", "bk-email", "bk-tel"].forEach((id) => field(id).addEventListener("input", () => showError(id, false)));
+
+    function message() {
+      const nom = field("bk-nom").value.trim();
+      const email = field("bk-email").value.trim();
+      const tel = field("bk-tel").value.trim();
+      const sujet = field("bk-sujet").value.trim();
+      return [
+        "Bonjour,",
+        "",
+        "Je souhaite prendre rendez-vous avec vous.",
+        "",
+        `📅 ${summary()}`,
+        sujet ? `📝 Objet : ${sujet}` : "",
+        "",
+        `Nom : ${nom}`,
+        `Email : ${email}`,
+        tel ? `Téléphone : ${tel}` : "",
+        "",
+        "Cordialement,",
+        nom,
+      ]
+        .filter((line, i, all) => line !== "" || all[i - 1] !== "")
+        .join("\n");
+    }
+
+    function finish(channel: "email" | "whatsapp") {
+      details.hidden = true;
+      done.hidden = false;
+      $("#bk-done-text").textContent =
+        (channel === "email"
+          ? "Votre messagerie s'est ouverte avec la demande pré-remplie : il ne reste qu'à l'envoyer."
+          : "WhatsApp s'est ouvert avec la demande pré-remplie : il ne reste qu'à l'envoyer.") +
+        " Je vous confirme le rendez-vous rapidement.";
+      done.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    $("#bk-send-email").addEventListener("click", () => {
+      if (!validate()) return;
+      const subject = `Demande de rendez-vous — ${summary()}`;
+      window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message())}`;
+      finish("email");
+    });
+    $("#bk-send-whatsapp").addEventListener("click", () => {
+      if (!validate()) return;
+      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message())}`, "_blank", "noopener");
+      finish("whatsapp");
+    });
+
+    // Fichier .ics pour ajouter le rendez-vous (en attente de confirmation) à son agenda
+    $("#bk-ics").addEventListener("click", () => {
+      if (!selectedDate || !selectedTime) return;
+      const start = slotInstant(selectedDate, selectedTime);
+      const end = new Date(start.getTime() + DURATION_MIN * 60_000);
+      const stamp = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+      const ics = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//TSIMANARY//Portfolio//FR",
+        "BEGIN:VEVENT",
+        `UID:${Date.now()}@tsimanary-portfolio`,
+        `DTSTAMP:${stamp(new Date())}`,
+        `DTSTART:${stamp(start)}`,
+        `DTEND:${stamp(end)}`,
+        `SUMMARY:Rendez-vous avec TSIMANARY (${TYPE_LABELS[meetingType()]})`,
+        "DESCRIPTION:Demande envoyée depuis le portfolio — en attente de confirmation.",
+        "STATUS:TENTATIVE",
+        "END:VEVENT",
+        "END:VCALENDAR",
+      ].join("\r\n");
+      const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "rendez-vous-tsimanary.ics";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    $("#bk-restart").addEventListener("click", () => {
+      selectedDate = null;
+      selectedTime = null;
+      done.hidden = true;
+      details.hidden = true;
+      slotsBox.hidden = true;
+      slotPlaceholder.hidden = false;
+      setStep(1);
+      renderCalendar();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      view = new Date(Date.UTC(view.getUTCFullYear(), view.getUTCMonth() - 1, 1));
+      renderCalendar();
+    });
+    nextBtn.addEventListener("click", () => {
+      view = new Date(Date.UTC(view.getUTCFullYear(), view.getUTCMonth() + 1, 1));
+      renderCalendar();
+    });
+
+    if (visitorIsMg) $("#bk-tz-hint").textContent = "Heures de Madagascar · durée 30 min";
+    renderCalendar();
+  }
+</script>
+
+<style is:global>
+  .bk {
+    --bk-border: rgba(17, 17, 17, 0.1);
+    --bk-surface: #f4f4f5;
+    --bk-text: #171717;
+    --bk-muted: #737373;
+    --bk-on-accent: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: var(--bk-text);
+    /* La mise en page s'adapte à la largeur du panneau, pas de l'écran */
+    container-type: inline-size;
+  }
+  html.dark .bk {
+    --bk-border: rgba(255, 255, 255, 0.1);
+    --bk-surface: rgba(255, 255, 255, 0.04);
+    --bk-text: #f5f5f5;
+    --bk-muted: #a3a3a3;
+    --bk-on-accent: #052e16;
+  }
+
+  /* --- Étapes --- */
+  .bk-steps {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bk-muted);
+  }
+  .bk-step {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--bk-border);
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .bk-step span {
+    display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 9999px;
+    border: 1.5px solid currentColor;
+    font-size: 11px;
+  }
+  .bk-step.is-current,
+  .bk-step.is-done {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .bk-step.is-done span {
+    background: var(--accent);
+    color: var(--bk-on-accent);
+    border-color: var(--accent);
+  }
+
+  .bk-main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @container (min-width: 600px) {
+    .bk-main {
+      grid-template-columns: 1.05fr 1fr;
+    }
+  }
+  .bk-label {
+    margin: 0 0 0.75rem;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .bk-label-spaced {
+    margin-top: 1.25rem;
+  }
+  .bk-hint,
+  .bk-placeholder {
+    margin: 0.75rem 0 0;
+    font-size: 12px;
+    color: var(--bk-muted);
+  }
+  .bk-placeholder {
+    margin: 0;
+    padding: 1.25rem;
+    border: 1px dashed var(--bk-border);
+    border-radius: 12px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  /* --- Calendrier --- */
+  .bk-cal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .bk-cal-month {
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .bk-cal-nav {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--bk-border);
+    border-radius: 8px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, opacity 0.2s;
+  }
+  .bk-cal-nav svg {
+    width: 1rem;
+    height: 1rem;
+  }
+  .bk-cal-nav:hover:not(:disabled) {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .bk-cal-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  .bk-cal-weekdays,
+  .bk-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+  }
+  .bk-cal-weekdays span {
+    padding: 0.35rem 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bk-muted);
+  }
+  .bk-day {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    max-height: 2.75rem;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .bk-day:hover:not(:disabled):not(.is-selected) {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .bk-day.is-today {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .bk-day.is-selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bk-on-accent);
+    font-weight: 700;
+    transform: scale(1.05);
+  }
+  .bk-day:disabled {
+    cursor: not-allowed;
+    opacity: 0.28;
+  }
+  .bk-day.is-weekend {
+    text-decoration: line-through;
+  }
+  .bk-day.is-empty {
+    pointer-events: none;
+  }
+  .bk-day:focus-visible,
+  .bk-slot:focus-visible,
+  .bk-cal-nav:focus-visible,
+  .bk-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* --- Créneaux --- */
+  .bk-selected-date {
+    margin: 0 0 0.75rem;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .bk-period + .bk-period {
+    margin-top: 0.9rem;
+  }
+  .bk-period-label {
+    margin: 0 0 0.45rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bk-muted);
+  }
+  .bk-slot-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr));
+    gap: 0.5rem;
+  }
+  .bk-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 0.55rem 0.25rem;
+    border: 1px solid var(--bk-border);
+    border-radius: 10px;
+    background: var(--bk-surface);
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .bk-slot-time {
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .bk-slot-local {
+    font-size: 10px;
+    color: var(--bk-muted);
+  }
+  .bk-slot-local:empty {
+    display: none;
+  }
+  .bk-slot:hover:not(:disabled):not(.is-selected) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .bk-slot.is-selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bk-on-accent);
+  }
+  .bk-slot.is-selected .bk-slot-local {
+    color: inherit;
+    opacity: 0.8;
+  }
+  .bk-slot:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  /* --- Type de rendez-vous --- */
+  .bk-types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .bk-type {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--bk-border);
+    border-radius: 10px;
+    background: var(--bk-surface);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .bk-type input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .bk-type-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .bk-type-detail {
+    font-size: 11px;
+    color: var(--bk-muted);
+  }
+  .bk-type:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .bk-type:has(input:checked) .bk-type-label {
+    color: var(--accent);
+  }
+  .bk-type:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* --- Coordonnées --- */
+  .bk-details {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--bk-border);
+  }
+  .bk-recap {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--bk-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .bk-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 0.85rem;
+  }
+  .bk-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .bk-field-wide {
+    grid-column: 1 / -1;
+  }
+  .bk-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bk-muted);
+  }
+  .bk-field input,
+  .bk-field textarea {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--bk-border);
+    border-radius: 10px;
+    background: var(--bk-surface);
+    color: var(--bk-text);
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .bk-field input:focus,
+  .bk-field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .bk-field .is-invalid {
+    border-color: #ef4444;
+  }
+  .bk-error {
+    display: none;
+    font-size: 12px;
+    color: #ef4444;
+  }
+  .bk-error.is-visible {
+    display: block;
+  }
+
+  /* --- Boutons --- */
+  .bk-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  .bk-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s, background 0.15s;
+  }
+  .bk-btn svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex-shrink: 0;
+  }
+  .bk-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+  }
+  .bk-btn-primary {
+    background: var(--accent);
+    color: var(--bk-on-accent);
+  }
+  .bk-btn-outline {
+    background: transparent;
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .bk-btn-outline:hover {
+    background: var(--accent-soft);
+  }
+  .bk-btn-whatsapp {
+    background: #25d366;
+    color: #ffffff;
+  }
+  .bk-btn-ghost {
+    background: transparent;
+    border-color: var(--bk-border);
+    color: inherit;
+  }
+
+  /* --- Confirmation --- */
+  .bk-done {
+    padding: 1.5rem 0 0.5rem;
+    text-align: center;
+  }
+  .bk-done-icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 0.75rem;
+    border-radius: 9999px;
+    background: var(--accent);
+    color: var(--bk-on-accent);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .bk-done-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .bk-done-text {
+    max-width: 30rem;
+    margin: 0.5rem auto 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--bk-muted);
+  }
+
+  @media (max-width: 480px) {
+    .bk-types {
+      grid-template-columns: 1fr;
+    }
+    .bk-step {
+      font-size: 0;
+      justify-content: center;
+    }
+    .bk-step span {
+      font-size: 11px;
+    }
+    .bk-step.is-current {
+      font-size: 12px;
+    }
+  }
+</style>

@@ -1,7 +1,14 @@
 ---
 import "@fontsource-variable/onest";
+import "@fontsource-variable/space-grotesk";
+import spaceGroteskWoff2 from "@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url";
+import "@fontsource/instrument-serif/400.css";
+import "@fontsource/instrument-serif/400-italic.css";
+import "lenis/dist/lenis.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import GlassBackground from "../components/GlassBackground.astro";
+import Intro from "../components/Intro.astro";
 import { ViewTransitions } from "astro:transitions";
 
 interface Props {
@@ -10,6 +17,8 @@ interface Props {
 }
 
 const { description, title } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/projects/og-image.jpg", Astro.site);
 ---
 
 <!doctype html>
@@ -17,37 +26,69 @@ const { description, title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Police du nom préchargée pour que l'écran d'intro s'affiche directement dans la bonne police -->
+    <link rel="preload" href={spaceGroteskWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="darkreader-lock" />
+
+    <!-- Partage sur les réseaux sociaux (LinkedIn, WhatsApp, Facebook…) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Applique le thème avant le premier rendu (évite le flash clair/sombre) -->
+    <script is:inline>
+      (function () {
+        var pref = null;
+        try {
+          pref = localStorage.getItem("theme");
+        } catch (e) {}
+        var dark =
+          pref === "dark" ||
+          ((pref === null || pref === "system") &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", dark);
+
+        // Écran d'intro : une seule fois par visite, jamais si moins d'animations est demandé
+        var seen = false;
+        try {
+          seen = sessionStorage.getItem("intro-seen") === "1";
+        } catch (e) {}
+        var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        document.documentElement.classList.add(seen || calm ? "no-intro" : "intro-active");
+      })();
+    </script>
+
     <ViewTransitions />
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
-      is:inline></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"
-      is:inline></script>
   </head>
 
   <body class="relative text-black dark:text-white">
-    <!-- Canvas Vanta plein écran fixe -->
-    <div id="vanta-bg" class="fixed inset-0 z-[-2]"></div>
-
-    <!-- Surcouche opacity pour lisibilité — mise à jour par JS selon le mode -->
-    <div
-      id="vanta-overlay"
-      class="fixed inset-0 pointer-events-none"
-      style="z-index: -1; background: rgba(8, 12, 28, 0.55);"
-      aria-hidden="true"
-    >
-    </div>
+    <Intro />
+    <!-- Fond « verre cannelé » inspiré de kstoimenov.com : halos lumineux derrière des cannelures verticales -->
+    <!-- Fond de caractères ASCII sur les zones noires (inspiré de gertix.studio) -->
+    <canvas class="ascii-field" aria-hidden="true"></canvas>
+    <GlassBackground position="top" />
 
     <Header />
     <slot />
     <Footer />
+    <GlassBackground position="bottom" />
+
+    <script>
+      import "@/scripts/interactions";
+    </script>
 
     <style is:global>
       :root {
@@ -57,6 +98,178 @@ const { description, title } = Astro.props;
       html {
         font-family: "Onest Variable", system-ui, sans-serif;
         scroll-behavior: smooth;
+      }
+
+      /* ============ Fond « verre cannelé » ============ */
+      /* Comme kstoimenov : le même verre vert dans les deux modes ; seule la page change (blanc / noir) */
+      :root {
+        --page-bg: #f4f5f2;
+        --blob-1: #2ee35f;
+        --blob-2: #b6ff8a;
+        --blob-3: #17a33f;
+        --blob-4: #3ddc6a;
+        --blob-opacity: 1;
+        --glass-base: linear-gradient(90deg, #03200b, #0b4a1a 50%, #03200b);
+        --flute-light: rgba(255, 255, 255, 0.16);
+        --flute-dark: rgba(0, 0, 0, 0.38);
+      }
+      html.dark {
+        --page-bg: #0d0f0e;
+        --blob-1: #2ee35f;
+        --blob-2: #b6ff8a;
+        --blob-3: #17a33f;
+        --blob-4: #3ddc6a;
+        --blob-opacity: 1;
+        --glass-base: linear-gradient(90deg, #03200b, #0b4a1a 50%, #03200b);
+        --flute-light: rgba(255, 255, 255, 0.16);
+        --flute-dark: rgba(0, 0, 0, 0.38);
+      }
+      html {
+        background: var(--page-bg);
+      }
+      /* Mode clair : cartes blanches légèrement surélevées sur le fond teinté */
+      html:not(.dark) body :is(.project-card, .exp-card, .about-card, .about-strength, .contact-right, .footer-tiles) {
+        border-color: rgba(17, 17, 17, 0.08);
+        box-shadow:
+          0 1px 2px rgba(16, 24, 16, 0.04),
+          0 10px 28px -14px rgba(16, 24, 16, 0.16);
+      }
+      html:not(.dark) body :is(.project-card, .exp-card, .about-strength):hover {
+        border-color: rgba(21, 128, 61, 0.35);
+        box-shadow:
+          0 1px 2px rgba(16, 24, 16, 0.05),
+          0 18px 40px -16px rgba(21, 128, 61, 0.28);
+      }
+
+      /* Aucun défilement horizontal parasite (marquee, halos, etc.) */
+      html,
+      body {
+        overflow-x: clip;
+      }
+      .ascii-field {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        pointer-events: none;
+      }
+      .glass-bg {
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+        background: var(--glass-base);
+      }
+      .glass-blobs {
+        position: absolute;
+        inset: -10%;
+        filter: blur(60px) saturate(1.25);
+        opacity: var(--blob-opacity);
+        transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+        transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        will-change: transform;
+      }
+      .blob-1 {
+        width: 42vw;
+        height: 70%;
+        left: 22%;
+        top: 12%;
+        background: radial-gradient(closest-side, var(--blob-1) 0%, var(--blob-1) 30%, transparent 100%);
+        animation: blob-drift-1 18s ease-in-out infinite alternate;
+      }
+      .blob-2 {
+        width: 26vw;
+        height: 48%;
+        left: 34%;
+        top: 22%;
+        background: radial-gradient(closest-side, var(--blob-2) 0%, var(--blob-2) 30%, transparent 100%);
+        animation: blob-drift-2 14s ease-in-out infinite alternate;
+      }
+      .blob-3 {
+        width: 50vw;
+        height: 90%;
+        left: -8%;
+        top: 0;
+        background: radial-gradient(closest-side, var(--blob-3) 0%, var(--blob-3) 30%, transparent 100%);
+        animation: blob-drift-3 22s ease-in-out infinite alternate;
+      }
+      .blob-4 {
+        width: 30vw;
+        height: 60%;
+        right: -4%;
+        top: 30%;
+        background: radial-gradient(closest-side, var(--blob-4) 0%, var(--blob-4) 30%, transparent 100%);
+        opacity: 0.6;
+        animation: blob-drift-1 20s ease-in-out infinite alternate-reverse;
+      }
+      @keyframes blob-drift-1 {
+        to {
+          transform: translate(12vw, 8%) scale(1.15);
+        }
+      }
+      @keyframes blob-drift-2 {
+        to {
+          transform: translate(-10vw, 14%) scale(0.85);
+        }
+      }
+      @keyframes blob-drift-3 {
+        to {
+          transform: translate(18vw, -6%) scale(1.1);
+        }
+      }
+      /* Cannelures verticales : ombre à gauche, reflet fin à droite de chaque lame */
+      .glass-flutes {
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--flute-dark) 0px,
+          transparent 14px,
+          transparent 30px,
+          var(--flute-light) 41px,
+          var(--flute-dark) 44px
+        );
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+      /* Hauteur = celle du Hero (mesurée en JS dans interactions.ts), 100svh par défaut */
+      .glass-bg--top {
+        top: 0;
+        height: var(--hero-h, 100svh);
+      }
+      .glass-bg--bottom {
+        bottom: 0;
+        height: 42vh;
+      }
+      .glass-fade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 86%, var(--page-bg) 100%);
+      }
+      .glass-bg--bottom .glass-fade {
+        background: linear-gradient(to top, transparent 10%, var(--page-bg) 72%);
+      }
+      .font-serif-accent {
+        font-family: "Instrument Serif", Georgia, serif;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+      }
+      @media (max-width: 640px) {
+        .blob-1 { width: 80vw; }
+        .blob-2 { width: 60vw; }
+        .blob-3 { width: 90vw; }
+        .blob-4 { width: 60vw; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .blob { animation: none; }
+        .glass-blobs { transition: none; }
       }
 
       body {
@@ -73,10 +286,6 @@ const { description, title } = Astro.props;
         }
       }
 
-      #vanta-bg {
-        width: 100%;
-        height: 100%;
-      }
 
       @keyframes blur {
         to {
@@ -141,20 +350,6 @@ const { description, title } = Astro.props;
         animation-delay: 540ms;
       }
 
-      .gradient-name {
-        background: linear-gradient(135deg, #3b82f6 10%, #2563eb 90%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        color: transparent;
-      }
-
-      html.dark .gradient-name {
-        background: linear-gradient(135deg, #3fff82 10%, #00c864 90%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
 
       @supports (animation-timeline: view()) {
         [data-section] {
@@ -188,6 +383,158 @@ const { description, title } = Astro.props;
         animation: pulse-glow 3s ease-in-out infinite;
       }
 
+      /* ============ Effets inspirés d'Awwwards / kstoimenov ============ */
+      :root {
+        --accent: #15803d;
+        --accent-soft: rgba(21, 128, 61, 0.1);
+        --font-display: "Space Grotesk Variable", "Onest Variable", system-ui, sans-serif;
+      }
+      html.dark {
+        --accent: #4ade80;
+        --accent-soft: rgba(74, 222, 128, 0.15);
+      }
+      .font-display {
+        font-family: var(--font-display);
+      }
+
+      /* Texte qui « roule » au survol : le texte monte, sa copie prend sa place */
+      .roll {
+        display: inline-flex;
+        overflow: hidden;
+        vertical-align: top;
+        line-height: 1.25;
+      }
+      .roll > span {
+        position: relative;
+        display: inline-block;
+        transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+      }
+      .roll > span::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 100%;
+      }
+      :is(a, button):hover .roll > span,
+      :is(a, button):focus-visible .roll > span {
+        transform: translateY(-100%);
+      }
+
+      /* Texte qui s'éclaire mot par mot */
+      .hl-word {
+        opacity: 0.25;
+        transition: opacity 0.35s ease;
+      }
+      .hl-word.is-lit {
+        opacity: 1;
+      }
+
+      /* Apparition au défilement */
+      [data-reveal] {
+        opacity: 0;
+        translate: 0 32px;
+        transition:
+          opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+          translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        transition-delay: calc(var(--i, 0) * 90ms);
+      }
+      [data-reveal].is-revealed {
+        opacity: 1;
+        translate: 0 0;
+      }
+
+      /* Boutons magnétiques */
+      [data-magnetic] {
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      /* Curseur personnalisé */
+      html.has-cursor,
+      html.has-cursor :is(a, button, [data-cursor]) {
+        cursor: none;
+      }
+      html.has-cursor :is(input, textarea, select, iframe) {
+        cursor: auto;
+      }
+      .cursor {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .cursor.is-visible {
+        opacity: 1;
+      }
+      .cursor-dot,
+      .cursor-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 9999px;
+      }
+      .cursor-dot {
+        width: 6px;
+        height: 6px;
+        margin: -3px 0 0 -3px;
+        background: var(--accent);
+      }
+      .cursor-ring {
+        width: 36px;
+        height: 36px;
+        margin: -18px 0 0 -18px;
+        border: 1.5px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          margin 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          background 0.35s;
+      }
+      .cursor.is-hover .cursor-ring {
+        width: 56px;
+        height: 56px;
+        margin: -28px 0 0 -28px;
+        background: var(--accent-soft);
+      }
+      .cursor.has-label .cursor-ring {
+        width: 84px;
+        height: 84px;
+        margin: -42px 0 0 -42px;
+        background: var(--accent);
+      }
+      .cursor.has-label .cursor-dot {
+        opacity: 0;
+      }
+      .cursor-label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #fff;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      html.dark .cursor-label {
+        color: #052e16;
+      }
+      .cursor.has-label .cursor-label {
+        opacity: 1;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        [data-reveal] {
+          opacity: 1;
+          translate: none;
+          transition: none;
+        }
+        .roll > span {
+          transition: none;
+        }
+      }
+
       .social-pill {
         display: inline-flex;
         align-items: center;
@@ -198,16 +545,16 @@ const { description, title } = Astro.props;
         transition: all 0.2s;
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(8px);
-        color: #1e293b;
+        color: #171717;
         border: 1px solid rgba(0, 0, 0, 0.08);
       }
       html.dark .social-pill {
         background: rgba(255, 255, 255, 0.07);
-        color: #e2f0ef;
+        color: #f5f5f5;
         border-color: rgba(255, 255, 255, 0.1);
       }
       .social-pill:hover {
-        background: #3b82f6;
+        background: #15803d;
         color: white;
         border-color: transparent;
       }
@@ -218,91 +565,5 @@ const { description, title } = Astro.props;
       }
     </style>
 
-    <script is:inline>
-      (function () {
-        const DARK_CONFIG = {
-          color: 0x3fff82,
-          backgroundColor: 0x151b3c,
-        };
-        const LIGHT_CONFIG = {
-          color: 0x3cefa,
-          backgroundColor: 0xebebeb,
-        };
-
-        let vantaEffect = null;
-
-        function isDark() {
-          return document.documentElement.classList.contains("dark");
-        }
-
-        /* === Surcouche opacity === */
-        function updateOverlay() {
-          const overlay = document.getElementById("vanta-overlay");
-          if (!overlay) return;
-          if (isDark()) {
-            // Sombre : voile noir → atténue le réseau vert
-            overlay.style.background = "rgba(8, 12, 28, 0.7)";
-          } else {
-            // Clair : voile blanc → atténue le réseau bleu 
-            overlay.style.background = "rgba(240, 245, 255, 0.7)";  
-          }
-        }
-
-        function initVanta() {
-          if (vantaEffect) {
-            vantaEffect.destroy();
-            vantaEffect = null;
-          }
-
-          if (typeof VANTA === "undefined" || typeof THREE === "undefined") {
-            setTimeout(initVanta, 100);
-            return;
-          }
-
-          const cfg = isDark() ? DARK_CONFIG : LIGHT_CONFIG;
-
-          vantaEffect = VANTA.NET({
-            el: "#vanta-bg",
-            THREE: THREE,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.0,
-            minWidth: 200.0,
-            scale: 1.0,
-            scaleMobile: 1.0,
-            color: cfg.color,
-            backgroundColor: cfg.backgroundColor,
-            points: 10.0,
-            maxDistance: 20.0,
-            spacing: 15.0,
-            showDots: true,
-          });
-
-          // Mettre à jour la surcouche après chaque init
-          updateOverlay();
-        }
-
-        document.addEventListener("DOMContentLoaded", initVanta);
-        document.addEventListener("astro:page-load", initVanta);
-        document.addEventListener("astro:after-swap", initVanta);
-
-        const observer = new MutationObserver(function (mutations) {
-          mutations.forEach(function (mutation) {
-            if (
-              mutation.type === "attributes" &&
-              mutation.attributeName === "class"
-            ) {
-              initVanta();
-            }
-          });
-        });
-
-        observer.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ["class"],
-        });
-      })();
-    </script>
   </body>
 </html>

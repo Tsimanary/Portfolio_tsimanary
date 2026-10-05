@@ -1,401 +1,412 @@
 ---
-const personalImageAlt = "TSIMANARY Andriniaina Bonheur ";
+import RollText from "./RollText.astro";
+
+const strengths = [
+  {
+    title: "Du besoin au produit",
+    text: "Je transforme des besoins métiers en applications concrètes, de la conception à la mise en ligne.",
+    icon: '<path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
+  },
+  {
+    title: "Qualité et performance",
+    text: "Un code lisible et maintenable, des interfaces rapides et agréables à utiliser.",
+    icon: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  },
+  {
+    title: "Déploiement moderne",
+    text: "Docker, Kubernetes et Google Cloud pour des mises en production fiables et scalables.",
+    icon: '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  },
+];
+
+const stack = [
+  { group: "Back-end", items: ["Laravel", "Django", "Flask", "Node.js"] },
+  { group: "Front-end & mobile", items: ["React", "Flutter"] },
+  { group: "Cloud & DevOps", items: ["Docker", "Kubernetes", "Google Cloud"] },
+];
 ---
 
-<article
-  class="flex flex-col gap-8 text-gray-700 dark:text-gray-300 md:flex-row md:items-start"
->
+<article class="about">
   <!-- Carte profil -->
-  <div class="flex-shrink-0 md:order-1">
-    <div class="profile-card">
-      <!-- Photo + nom -->
-      <div class="profile-left">
-        <div class="photo-wrapper">
-          <img
-            width="150"
-            height="190"
-            src="/projects/tsimanary.png"
-            alt={personalImageAlt}
-            class="profile-photo"
-            style="object-position: 50% 20%"
-          />
-          <div class="photo-overlay">
-            <p class="profile-name">TSIMANARY </br>Andriniaina Bonheur</p>
-            <p class="profile-title">Full Stack Developer</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tech stack + dispo + métriques -->
-      <div class="profile-right">
-        <div class="tech-stack-card">
-          <p class="tech-label">TECH STACK</p>
-          <div class="tech-list">
-            <span class="tech-item"
-              ><span class="tech-icon laravel-icon">○</span> Laravel</span
-            >
-            <span class="tech-item"
-              ><span class="tech-icon flutter-icon">◆</span> Flutter</span
-            >
-            <span class="tech-item"
-              ><span class="tech-icon react-icon">⚛</span> React</span
-            >
-            <span class="tech-item"
-              ><span class="tech-icon flask-icon">⚙</span> Flask</span
-            >
-          </div>
-        </div>
-
-        <div class="dispo-badge">
-          <span class="dispo-icon">⚡</span>
-          <span>Disponible</span>
-        </div>
-
-        <div class="metrics-row">
-          <div class="metric-card metric-neutral">
-            <span class="metric-star">☆</span>
-            <div>
-              <p class="metric-value">3+</p>
-              <p class="metric-label">Projets livrés</p>
-            </div>
-          </div>
-          <div class="metric-card metric-accent">
-            <p class="metric-value-accent">2+</p>
-            <p class="metric-label-accent">ans exp.</p>
-          </div>
-        </div>
-      </div>
+  <aside class="about-card" data-reveal>
+    <div class="about-photo">
+      <img
+        src="/projects/tsimanary-640.jpg"
+        alt="TSIMANARY Andriniaina Bonheur"
+        width="640"
+        height="640"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="about-status">
+        <span class="about-status-dot" aria-hidden="true"></span>
+        Disponible
+      </span>
     </div>
-  </div>
+    <div class="about-id">
+      <p class="about-name font-display">TSIMANARY</p>
+      <p class="about-fullname">Andriniaina Bonheur</p>
+      <p class="about-role">Développeur Full-Stack</p>
+    </div>
+    <ul class="about-facts">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Madagascar
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg>
+        CDI, freelance ou collaboration
+      </li>
+    </ul>
+  </aside>
 
   <!-- Texte -->
-  <div class="[&>p]:mb-4 [&>p>strong]:font-mono text-pretty md:order-2">
-    <p>
-      Développeur Full Stack passionné, je conçois et déploie des solutions
-      digitales robustes et évolutives en
-      <strong class="text-blue-500 dark:text-green-400 font-semibold">
-        Laravel, Flutter, Flask, React, Node.js
-      </strong>. J'aime transformer les besoins métiers en applications
-      concrètes, avec un souci constant de performance, qualité et expérience
-      utilisateur.
-    </p>
-    <p>
-      Je maîtrise également les environnements modernes de déploiement et
-      d'orchestration avec
-      <strong class="text-blue-500 dark:text-green-400 font-semibold">
-        Docker, Google Cloud et Kubernetes
-      </strong>, ce qui me permet de livrer des solutions fiables et scalables.
-    </p>
-    <p>
-      Fort de mes projets réalisés en e‑commerce, streaming musical et systèmes
-      intelligents, je suis prêt à contribuer efficacement au succès d'une
-      équipe ambitieuse et à livrer des résultats tangibles dès mon intégration.
-    </p>
-    <p>
-      Je suis motivé à rejoindre une équipe ambitieuse pour une embauche.
-      N'hésitez pas à
-      <a href="#contact" class="hover:underline">
-        me contacter
+  <div class="about-content">
+    <div class="about-text" data-highlight>
+      <p>
+        Je suis développeur full-stack. J'aime transformer des besoins métiers
+        en applications concrètes, <strong>web, mobile ou cloud</strong>, avec
+        un souci constant de performance, de qualité et d'expérience utilisateur.
+      </p>
+      <p>
+        De l'e-commerce au streaming musical en passant par les systèmes
+        connectés, mes projets m'ont appris à livrer de bout en bout. Je cherche
+        aujourd'hui une <strong>équipe ambitieuse</strong> où contribuer dès le
+        premier jour.
+      </p>
+    </div>
+
+    <!-- Points forts -->
+    <ul class="about-strengths">
+      {
+        strengths.map((item, i) => (
+          <li class="about-strength" data-reveal style={`--i:${i}`}>
+            <svg
+              class="about-strength-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={item.icon}
+            />
+            <p class="about-strength-title">{item.title}</p>
+            <p class="about-strength-text">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Stack par catégorie -->
+    <div class="about-stack" data-reveal>
+      {
+        stack.map((row) => (
+          <div class="about-stack-row">
+            <p class="about-stack-group">{row.group}</p>
+            <ul class="about-stack-items">
+              {row.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Actions -->
+    <div class="about-actions" data-reveal>
+      <a href="/#contact" class="about-btn about-btn-primary" data-magnetic>
+        <RollText text="Discutons de votre projet" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
       </a>
-      pour échanger.
-    </p>
+      <a href="/Tsimanary-CV.pdf" download="Tsimanary-CV.pdf" class="about-btn about-btn-ghost" data-cursor="CV">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path><path d="M12 15V3"></path></svg>
+        <RollText text="Télécharger mon CV" />
+      </a>
+    </div>
   </div>
 </article>
 
 <style>
-  /* =====================
-     CARTE PRINCIPALE
-  ===================== */
-  .profile-card {
-    display: flex;
-    gap: 1rem;
-    border-radius: 20px;
-    padding: 1.25rem;
-    width: fit-content;
-
-    /* Mode clair : blanc avec bordure bleue subtile */
-    background: #ffffff;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 8px 32px -8px rgba(59, 130, 246, 0.12);
+  .about {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    --about-border: rgba(17, 17, 17, 0.1);
+    --about-surface: #ffffff;
+    --about-text: #171717;
+    --about-muted: #525252;
   }
-  html.dark .profile-card {
-    /* Mode sombre : bleu nuit foncé comme l'image */
-    background: #111827;
-    border: 1px solid rgba(74, 222, 128, 0.15);
-    box-shadow: 0 8px 32px -8px rgba(74, 222, 128, 0.1);
+  :global(html.dark) .about {
+    --about-border: rgba(255, 255, 255, 0.09);
+    --about-surface: #141716;
+    --about-text: #f5f5f5;
+    --about-muted: #a3a3a3;
   }
-
-  /* =====================
-     PHOTO
-  ===================== */
-  .profile-left {
-    flex-shrink: 0;
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: 19rem 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .about-card {
+      position: sticky;
+      top: 2rem;
+    }
   }
 
-  .photo-wrapper {
-    width: 150px;
-    border-radius: 14px;
+  /* === Carte profil === */
+  .about-card {
     overflow: hidden;
-    border: 1px solid rgba(59, 130, 246, 0.15);
+    border: 1px solid var(--about-border);
+    border-radius: 20px;
+    background: var(--about-surface);
+    color: var(--about-text);
   }
-  html.dark .photo-wrapper {
-    border-color: rgba(74, 222, 128, 0.1);
+  .about-photo {
+    position: relative;
+    aspect-ratio: 4 / 4.4;
+    overflow: hidden;
   }
-
-  .profile-photo {
-    width: 150px;
-    height: 190px;
+  .about-photo img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    display: block;
+    object-position: 50% 15%;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-
-  .photo-overlay {
-    padding: 8px 10px 10px;
-    /* clair : blanc */
-    background: #f8fafc;
-    border-top: 1px solid rgba(59, 130, 246, 0.1);
+  .about-card:hover .about-photo img {
+    transform: scale(1.04);
   }
-  html.dark .photo-overlay {
-    background: #111827;
-    border-top-color: rgba(74, 222, 128, 0.08);
-  }
-
-  .profile-name {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    margin: 0;
-    /* clair : gris foncé */
-    color: #1e293b;
-  }
-  html.dark .profile-name {
-    color: #f9fafb;
-  }
-
-  .profile-title {
-    font-size: 11px;
-    margin: 2px 0 0;
-    font-weight: 600;
-    color: #2563eb;
-  }
-  html.dark .profile-title {
-    color: #4ade80;
-  }
-
-  /* =====================
-     COLONNE DROITE
-  ===================== */
-  .profile-right {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 160px;
-  }
-
-  /* Tech stack card */
-  .tech-stack-card {
-    border-radius: 12px;
-    padding: 10px 12px;
-    /* clair : gris très clair */
-    background: #f1f5f9;
-    border: 1px solid rgba(59, 130, 246, 0.1);
-  }
-  html.dark .tech-stack-card {
-    background: #1f2937;
-    border-color: rgba(74, 222, 128, 0.08);
-  }
-
-  .tech-label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin: 0 0 8px;
-    color: #64748b;
-  }
-  html.dark .tech-label {
-    color: #9ca3af;
-  }
-
-  .tech-list {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  .tech-item {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #1e293b;
-  }
-  html.dark .tech-item {
-    color: #f3f4f6;
-  }
-
-  .tech-icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    flex-shrink: 0;
-  }
-  .laravel-icon {
-    background: #ff2d20;
-    color: #fff;
-    border-radius: 50%;
-  }
-  .flutter-icon {
-    background: #0553b1;
-    color: #54c5f8;
-  }
-  .react-icon {
-    background: #20232a;
-    color: #61dafb;
-  }
-  .flask-icon {
-    background: #2b2d42;
-    color: #ffd43b;
-  }
-
-  /* Badge dispo */
-  .dispo-badge {
+  .about-status {
+    position: absolute;
+    left: 0.85rem;
+    bottom: 0.85rem;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    border-radius: 20px;
-    padding: 5px 12px;
-    width: fit-content;
+    gap: 0.45rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(10, 12, 11, 0.7);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
     font-size: 12px;
     font-weight: 600;
-    /* clair : bleu */
-    background: rgba(37, 99, 235, 0.1);
-    color: #2563eb;
-    border: 1px solid rgba(37, 99, 235, 0.2);
   }
-  html.dark .dispo-badge {
-    background: rgba(74, 222, 128, 0.1);
-    color: #4ade80;
-    border-color: rgba(74, 222, 128, 0.2);
-  }
-
-  .dispo-icon {
-    font-size: 13px;
-    color: #2563eb;
-  }
-  html.dark .dispo-icon {
-    color: #4ade80;
-  }
-
-  /* Métriques */
-  .metrics-row {
-    display: flex;
-    gap: 8px;
-  }
-
-  .metric-card {
-    flex: 1;
-    border-radius: 12px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  /* Carte gauche (projets) */
-  .metric-neutral {
-    background: #f1f5f9;
-    border: 1px solid rgba(59, 130, 246, 0.1);
-  }
-  html.dark .metric-neutral {
-    background: #1f2937;
-    border-color: rgba(74, 222, 128, 0.08);
-  }
-
-  /* Carte droite (ans exp.) — bleue en clair, verte en sombre */
-  .metric-accent {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    /* clair : bleu */
-    background: #2563eb;
-  }
-  html.dark .metric-accent {
-    /* sombre : vert */
+  .about-status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
     background: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25);
+    animation: about-pulse 2s ease-in-out infinite;
   }
-
-  .metric-star {
+  @keyframes about-pulse {
+    50% {
+      box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+    }
+  }
+  .about-id {
+    padding: 1.1rem 1.25rem 0.9rem;
+    border-bottom: 1px solid var(--about-border);
+  }
+  .about-name {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .about-fullname {
+    margin: 0.3rem 0 0;
     font-size: 14px;
-    color: #2563eb;
+    color: var(--about-muted);
   }
-  html.dark .metric-star {
-    color: #4ade80;
-  }
-
-  .metric-value {
-    font-size: 18px;
+  .about-role {
+    margin: 0.5rem 0 0;
+    font-size: 13px;
     font-weight: 700;
-    margin: 0;
-    color: #1e293b;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
   }
-  html.dark .metric-value {
-    color: #f9fafb;
+  .about-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 1rem 1.25rem 1.2rem;
+    list-style: none;
+    font-size: 14px;
+    color: var(--about-muted);
+  }
+  .about-facts li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .about-facts svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex-shrink: 0;
+    color: var(--accent);
   }
 
-  .metric-label {
-    font-size: 9px;
+  /* === Texte === */
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    min-width: 0;
+  }
+  .about-text {
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: var(--about-text);
+  }
+  .about-text p {
     margin: 0;
-    color: #64748b;
   }
-  html.dark .metric-label {
-    color: #9ca3af;
+  .about-text p + p {
+    margin-top: 1.1rem;
   }
-
-  /* Valeur dans la carte accent */
-  .metric-value-accent {
-    font-size: 20px;
+  .about-text strong {
+    color: var(--accent);
     font-weight: 700;
+  }
+
+  /* === Points forts === */
+  .about-strengths {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1rem;
     margin: 0;
-    text-align: center;
-    /* clair : blanc sur bleu */
+    padding: 0;
+    list-style: none;
+  }
+  .about-strength {
+    padding: 1.15rem 1.2rem 1.25rem;
+    border: 1px solid var(--about-border);
+    border-radius: 16px;
+    background: var(--about-surface);
+    color: var(--about-text);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .about-strength:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+  .about-strength-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--accent);
+  }
+  .about-strength-title {
+    margin: 0.85rem 0 0.35rem;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .about-strength-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--about-muted);
+  }
+
+  /* === Stack === */
+  .about-stack {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--about-border);
+  }
+  .about-stack-row {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--about-border);
+  }
+  .about-stack-group {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--about-muted);
+  }
+  .about-stack-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .about-stack-items li {
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--about-border);
+    border-radius: 9999px;
+    background: var(--about-surface);
+    color: var(--about-text);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  /* === Actions === */
+  .about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .about-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.4rem;
+    border: 1.5px solid transparent;
+    border-radius: 9999px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .about-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .about-btn-primary {
+    background: var(--accent);
     color: #ffffff;
   }
-  html.dark .metric-value-accent {
-    /* sombre : vert foncé sur vert clair */
-    color: #14532d;
+  :global(html.dark) .about-btn-primary {
+    color: #052e16;
+  }
+  .about-btn-ghost {
+    border-color: var(--about-border);
+    color: var(--about-text);
+  }
+  .about-btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
-  .metric-label-accent {
-    font-size: 9px;
-    margin: 0;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.8);
+  @media (max-width: 640px) {
+    .about-stack-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .about-btn {
+      width: 100%;
+      justify-content: center;
+    }
   }
-  html.dark .metric-label-accent {
-    color: #166534;
-  }
-
-  /* =====================
-     TEXTE & LIENS
-  ===================== */
-  article a {
-    color: #2563eb;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  html.dark article a {
-    color: #8bfa9d;
-  }
-
-  article p strong {
-    color: #2563eb;
-  }
-  html.dark article p strong {
-    color: #b5fdc7;
+  @media (prefers-reduced-motion: reduce) {
+    .about-status-dot {
+      animation: none;
+    }
   }
 </style>

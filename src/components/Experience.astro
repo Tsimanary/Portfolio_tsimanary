@@ -6,7 +6,7 @@ const experience = [
     title: "Stagiaire Développeur Full-Stack",
     company: "Projet de fin d'année — Réfrigérateur Intelligent (M1)",
     description:
-      "Conception et réalisation complète d'une plateforme e-commerce : modélisation de la base de données, modules panier, commandes et administration produits.",
+      "Conception et réalisation d'un système full-stack de suivi à distance du contenu d'un réfrigérateur : API REST Flask, alertes de péremption automatiques, suggestions de menus et génération de listes de courses.",
     date: "2023 – 2024",
     current: false,
     tags: ["Flask", "Python", "PostgreSQL"],
@@ -22,7 +22,7 @@ const experience = [
   },
 
    {
-    title: "projet Universitaire",
+    title: "Projet universitaire",
     company: "Gestion de Pharmacie",
     description:
       "Conception et réalisation complète d'une Application mobile pour gérer stocks, ventes et dates de péremption des produits pharmaceutiques. Interface intuitive et notifications.",
@@ -98,8 +98,8 @@ const formation = [
     </div>
     <ol class="exp-list">
       {
-        experience.map((item) => (
-          <li>
+        experience.map((item, i) => (
+          <li data-reveal style={`--i:${i}`}>
             <ExperienceItem {...item} />
           </li>
         ))
@@ -128,8 +128,8 @@ const formation = [
     </div>
     <ol class="exp-list">
       {
-        formation.map((item) => (
-          <li>
+        formation.map((item, i) => (
+          <li data-reveal style={`--i:${i}`}>
             <ExperienceItem {...item} />
           </li>
         ))
@@ -166,9 +166,9 @@ const formation = [
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    background: rgba(21, 128, 61, 0.1);
+    color: #15803d;
+    border: 1px solid rgba(21, 128, 61, 0.2);
     flex-shrink: 0;
   }
   :global(html.dark) .col-icon {
@@ -179,11 +179,11 @@ const formation = [
   .col-title {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #1e293b;
+    color: #171717;
     margin: 0;
   }
   :global(html.dark) .col-title {
-    color: #f1f5f9;
+    color: #f5f5f5;
   }
 
   /* === Liste === */

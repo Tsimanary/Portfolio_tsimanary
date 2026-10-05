@@ -1,0 +1,87 @@
+---
+// Bandeau géant défilant (Uncommon Studio / kstoimenov)
+const words = [
+  "Disponible pour une embauche",
+  "Full-Stack",
+  "Laravel",
+  "Flutter",
+  "React",
+  "Cloud & DevOps",
+];
+---
+
+<a href="#contact" class="marquee" data-cursor="Écrire" aria-label="Disponible pour une embauche — me contacter">
+  <div class="marquee-track" aria-hidden="true">
+    {
+      [0, 1].map(() => (
+        <div class="marquee-group">
+          {words.map((word) => (
+            <>
+              <span class="marquee-word font-display">{word}</span>
+              <span class="marquee-star">✦</span>
+            </>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</a>
+
+<style>
+  .marquee {
+    display: block;
+    overflow: hidden;
+    padding: 1.5rem 0;
+    border-block: 1px solid rgba(21, 128, 61, 0.2);
+    text-decoration: none;
+    color: #111111;
+  }
+  html.dark .marquee {
+    border-color: rgba(74, 222, 128, 0.15);
+    color: #f5f5f5;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 38s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-duration: 90s;
+  }
+  .marquee-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .marquee-word {
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+  /* Un mot sur deux en contour (le color est transparent, donc couleur de trait explicite) */
+  .marquee-word:nth-child(4n + 1) {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #111111;
+  }
+  html.dark .marquee-word:nth-child(4n + 1) {
+    -webkit-text-stroke-color: #f5f5f5;
+  }
+  .marquee-star {
+    margin: 0 2rem;
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    color: var(--accent);
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+</style>

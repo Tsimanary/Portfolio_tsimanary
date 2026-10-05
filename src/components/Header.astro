@@ -1,171 +1,149 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import RollText from "./RollText.astro";
+
 const navItems = [
-  {
-    title: "Expérience",
-    label: "experience",
-    url: "/#experience",
-  },
-  {
-    title: "Projets",
-    label: "projets",
-    url: "/#projets",
-  },
-  {
-    title: "Sur moi",
-    label: "about-me",
-    url: "/#about-me",
-  },
-  {
-    title: "Contact",
-    label: "contact",
-    url: "#contact",
-  },
-  {
-    title: "CV",
-    label: "cv",
-    url: "/Tsimanary-CV.pdf",
-  },
+  { title: "Expérience", label: "experience", url: "/#experience" },
+  { title: "Projets", label: "projets", url: "/#projets" },
+  { title: "Sur moi", label: "about-me", url: "/#about-me" },
+  { title: "CV", label: "cv", url: "/Tsimanary-CV.pdf" },
 ];
 ---
 
-<header
-  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-4"
->
-  <nav
-    class="header-nav flex gap-x-1 px-4 py-1.5 text-sm font-medium rounded-full text-gray-600 dark:text-gray-300 justify-center items-center border border-transparent"
-  >
+<!-- Barre de navigation flottante en bas de l'écran, comme kstoimenov.com -->
+<header class="site-nav-wrap">
+  <nav class="site-nav" aria-label="Navigation principale">
+    <ThemeToggle />
     {
       navItems.map((link) => (
         <a
-          class="nav-link relative block px-3 py-1.5 rounded-full transition-colors duration-200 hover:text-yellow-500 dark:hover:text-yellow-400"
-          aria-label={link.label}
+          class:list={["nav-link", { "nav-link-cv": link.label === "cv" }]}
+          data-section-link={link.label}
           href={link.url}
-          {...(link.url.endsWith(".pdf") ? { download: "Tsimanary-CV.pdf" } : {})}
+          {...(link.url.endsWith(".pdf")
+            ? { download: "Tsimanary-CV.pdf" }
+            : {})}
         >
-          {link.title}
+          <RollText text={link.title} />
         </a>
       ))
     }
-    <div class="ml-2 pl-2 border-l border-gray-300/30 dark:border-white/10">
-      <ThemeToggle />
-    </div>
+    <a href="/#contact" class="nav-link nav-cta" data-section-link="contact">
+      <RollText text="Contact" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M7 7h10v10"></path><path d="M7 17 17 7"></path>
+      </svg>
+    </a>
   </nav>
 </header>
+
 <script>
+  // Met en surbrillance le lien de la section visible à l'écran
   document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section");
-    const navItems = document.querySelectorAll("header nav a");
-    const callback = (entries: any[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add(
-                "text-blue-600 ",
-                "dark:text-blue-500 ",
-                "bg-blue-400/10",
-              );
-              item.classList.remove("text-gray-600", "dark:text-gray-300");
-            } else {
-              item.classList.remove(
-                "text-blue-600 ",
-                "dark:text-blue-500 ",
-                "bg-blue-400/10",
-              );
-              item.classList.add("text-gray-600", "dark:text-gray-300");
-            }
+    const sections = document.querySelectorAll<HTMLElement>("main section[id]");
+    const links = document.querySelectorAll<HTMLAnchorElement>("[data-section-link]");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((link) => {
+            const active = link.dataset.sectionLink === entry.target.id;
+            link.classList.toggle("is-active", active);
+            if (active) link.setAttribute("aria-current", "true");
+            else link.removeAttribute("aria-current");
           });
-        }
-      });
-    };
-    const observer = new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.3,
-    });
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
-    document.onvisibilitychange = () => {
-      if (document.visibilityState === "hidden") {
-        observer.disconnect();
-      } else {
-        sections.forEach((section) => {
-          observer.observe(section);
         });
-      }
-    };
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    document.addEventListener("astro:before-swap", () => observer.disconnect(), {
+      once: true,
+    });
   });
 </script>
+
 <style>
-  .header-nav {
-    animation: nav-appear 1s linear both;
-    animation-timeline: scroll();
-    animation-range: 0 100px;
+  .site-nav-wrap {
+    position: fixed;
+    left: 50%;
+    bottom: 1.25rem;
+    z-index: 30;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 1rem);
   }
-  .header-nav {
-    @apply dark:bg-gray-900/80 bg-white/60;
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem;
+    border-radius: 14px;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    background: rgba(255, 255, 255, 0.82);
+    color: #111111;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
   }
-  .nav-link.text-blue-600  {
-    @apply font-semibold;
-  }
-  @keyframes nav-appear {
-    0% {
-      @apply dark:bg-gray-900/0 bg-white/0 border-transparent shadow-none;
-    }
-    to {
-      @apply shadow-lg ring-1 backdrop-blur-md ring-white/10 dark:ring-white/5 border-gray-200/20 dark:border-white/5;
-    }
-  }
-</style>
-<style>
-  /* Lien actif / hover : bleu en clair, violet en sombre */
-  .nav-link:hover {
-    color: #2563eb;
-    background: rgba(59, 130, 246, 0.08);
-  }
-  html.dark .nav-link:hover {
-    color: #8bfabd;
-    background: rgba(92, 246, 156, 0.1);
+  :global(html.dark) .site-nav {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(17, 17, 17, 0.82);
+    color: #ffffff;
   }
 
-  /* Lien de section active (JS inject text-yellow-500 — on surcharge) */
-  .nav-link.text-yellow-500 {
-    color: #2563eb !important;
-    background: rgba(59, 130, 246, 0.1) !important;
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
   }
-  html.dark .nav-link.text-yellow-500 {
-    color: #8bfab9 !important;
-    background: rgba(92, 246, 138, 0.1) !important;
+  .nav-link:hover,
+  .nav-link.is-active {
+    color: var(--accent);
+  }
+  .nav-link.is-active {
+    background: var(--accent-soft);
+  }
+  .nav-cta svg {
+    width: 1rem;
+    height: 1rem;
   }
 
-  /* Nav fond */
-  .header-nav {
-    animation: nav-appear 1s linear both;
-    animation-timeline: scroll();
-    animation-range: 0 100px;
-  }
-  .header-nav {
-    @apply bg-white/70 dark:bg-[#0b2a35]/80;
-    backdrop-filter: blur(12px);
-  }
-
-  @keyframes nav-appear {
-    0% {
-      background: transparent;
-      border-color: transparent;
-      box-shadow: none;
+  @media (max-width: 520px) {
+    .site-nav-wrap {
+      bottom: 0.75rem;
     }
-    100% {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      @apply ring-1 ring-black/5 dark:ring-white/5
-             border-blue-200/30 dark:border-violet-400/20;
+    .site-nav {
+      gap: 0;
+      padding: 0.3rem;
+    }
+    .nav-link {
+      padding: 0.45rem 0.5rem;
+      font-size: 13px;
     }
   }
-
-  /* Texte nav clair / sombre */
-  .header-nav {
-    @apply text-gray-700 dark:text-gray-300;
+  /* Très petits écrans : le CV reste accessible depuis les tuiles du pied de page */
+  @media (max-width: 420px) {
+    .nav-link-cv {
+      display: none;
+    }
   }
 </style>

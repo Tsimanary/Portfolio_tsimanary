@@ -1,0 +1,145 @@
+---
+// Chiffres clés, inspirés de kstoimenov.com : grand chiffre, unité en haut à droite,
+// légende en bas ; la case survolée se remplit d'un dégradé.
+const stats = [
+  { count: 3, suffix: "+", unit: "Ans d'exp.", detail: "En développement web et mobile" },
+  { count: 4, unit: "Projets", detail: "Réalisés en web, mobile et IoT" },
+  { count: 15, unit: "Technos", detail: "Maîtrisées, de Laravel à Kubernetes" },
+  { count: 3, unit: "Domaines", detail: "Web, mobile et cloud" },
+];
+---
+
+<ul class="stats">
+  {
+    stats.map((stat, i) => (
+      <li class="stat" data-reveal style={`--i:${i}`}>
+        <div class="stat-top">
+          <p class="stat-value">
+            <span data-count={stat.count}>{stat.count}</span>{stat.suffix}
+          </p>
+          <p class="stat-unit">{stat.unit}</p>
+        </div>
+        <p class="stat-detail">{stat.detail}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .stat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    min-height: 15rem;
+    padding: 4.5rem 1.25rem 1.5rem;
+    border-left: 1px solid rgba(17, 17, 17, 0.15);
+    isolation: isolate;
+  }
+  .stat:last-child {
+    border-right: 1px solid rgba(17, 17, 17, 0.15);
+  }
+  html.dark .stat,
+  html.dark .stat:last-child {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  /* Dégradé qui apparaît au survol */
+  .stat::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(135deg, #166534 0%, #15803d 50%, #86efac 100%);
+    opacity: 0;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  html.dark .stat::before {
+    background: linear-gradient(135deg, #12e04f 0%, #78e82a 50%, #b8f7a0 100%);
+  }
+  .stat:hover::before {
+    opacity: 1;
+  }
+
+  .stat-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .stat-value {
+    margin: 0;
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 400;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: #111111;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s;
+  }
+  .stat-unit {
+    margin: -1.5rem 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111111;
+    transition: color 0.3s;
+  }
+  .stat-detail {
+    margin: 0;
+    max-width: 14rem;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #525252;
+    transition: color 0.3s;
+  }
+  html.dark .stat-value,
+  html.dark .stat-unit {
+    color: #ffffff;
+  }
+  html.dark .stat-detail {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  /* Texte sur le dégradé : blanc sur bleu, quasi noir sur vert */
+  .stat:hover :is(.stat-value, .stat-unit, .stat-detail) {
+    color: #ffffff;
+  }
+  html.dark .stat:hover :is(.stat-value, .stat-unit, .stat-detail) {
+    color: #0b1a10;
+  }
+
+  /* Tablette et mobile : grille 2 × 2 */
+  @media (max-width: 768px) {
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stat {
+      min-height: 11rem;
+      padding: 2.5rem 1rem 1.25rem;
+    }
+    .stat:nth-child(2n) {
+      border-right: 1px solid rgba(17, 17, 17, 0.15);
+    }
+    .stat:nth-child(n + 3) {
+      border-top: 1px solid rgba(17, 17, 17, 0.15);
+    }
+    html.dark .stat:nth-child(2n),
+    html.dark .stat:nth-child(n + 3) {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+    .stat-value {
+      font-size: 3rem;
+    }
+    .stat-unit {
+      font-size: 12px;
+    }
+  }
+</style>

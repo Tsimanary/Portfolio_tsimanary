@@ -71,7 +71,7 @@ const {
     top: 14px;
     bottom: 0;
     width: 2px;
-    background: rgba(59, 130, 246, 0.25);
+    background: rgba(21, 128, 61, 0.25);
     border-radius: 2px;
   }
   :global(html.dark) .exp-wrapper::before {
@@ -86,8 +86,8 @@ const {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    background: #15803d;
+    box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +101,7 @@ const {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: rgba(59, 130, 246, 0.4);
+    background: rgba(21, 128, 61, 0.4);
     animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
   :global(html.dark) .timeline-ping {
@@ -113,8 +113,8 @@ const {
 
   /* === Carte === */
   .exp-card {
-    background: #f8fafc;
-    border: 1px solid rgba(59, 130, 246, 0.15);
+    background: #ffffff;
+    border: 1px solid rgba(21, 128, 61, 0.15);
     border-radius: 14px;
     padding: 1rem 1.25rem;
     display: flex;
@@ -124,11 +124,11 @@ const {
     transition: border-color 0.25s, box-shadow 0.25s;
   }
   .exp-card:hover {
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 8px 32px -8px rgba(59, 130, 246, 0.18);
+    border-color: rgba(21, 128, 61, 0.4);
+    box-shadow: 0 8px 32px -8px rgba(21, 128, 61, 0.18);
   }
   :global(html.dark) .exp-card {
-   background: #0f172a;
+   background: #141716;
     border-color: rgba(74, 222, 128, 0.12);
   }
   :global(html.dark) .exp-card:hover {
@@ -148,9 +148,12 @@ const {
   .exp-title {
     font-size: 1rem;
     font-weight: 700;
-    color: #1d4ed8;
+    color: #166534;
     margin: 0;
     line-height: 1.4;
+  }
+  :global(html:not(.dark)) .exp-title {
+    color: #171717;
   }
   :global(html.dark) .exp-title {
     color: #4ade80;
@@ -163,9 +166,9 @@ const {
     white-space: nowrap;
     padding: 2px 8px;
     border-radius: 6px;
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    background: rgba(21, 128, 61, 0.1);
+    color: #15803d;
+    border: 1px solid rgba(21, 128, 61, 0.2);
     flex-shrink: 0;
   }
   :global(html.dark) .exp-date {
@@ -178,7 +181,7 @@ const {
   .exp-company {
     font-size: 13px;
     font-weight: 600;
-    color: #3b82f6;
+    color: #15803d;
     margin: 0;
   }
   :global(html.dark) .exp-company {
@@ -189,11 +192,11 @@ const {
   .exp-desc {
     font-size: 13px;
     line-height: 1.6;
-    color: #475569;
+    color: #525252;
     margin: 0.2rem 0 0;
   }
   :global(html.dark) .exp-desc {
-    color: #94a3b8;
+    color: #a3a3a3;
   }
 
   /* === Tags === */
@@ -205,14 +208,19 @@ const {
     padding: 0;
     margin: 0.25rem 0 0;
   }
+  :global(html:not(.dark)) .exp-tag {
+    background: #f4f4f5;
+    color: #262626;
+    border-color: rgba(17, 17, 17, 0.12);
+  }
   .exp-tag {
     font-size: 11px;
     font-weight: 500;
     padding: 2px 9px;
     border-radius: 6px;
-    background: rgba(59, 130, 246, 0.08);
-    color: #2563eb;
-    border: 1px solid rgba(59, 130, 246, 0.18);
+    background: rgba(21, 128, 61, 0.08);
+    color: #15803d;
+    border: 1px solid rgba(21, 128, 61, 0.18);
   }
   :global(html.dark) .exp-tag {
     background: rgba(74, 222, 128, 0.07);
@@ -224,7 +232,7 @@ const {
   .exp-link {
     font-size: 13px;
     font-weight: 500;
-    color: #3b82f6;
+    color: #15803d;
     text-decoration: none;
     margin-top: 0.25rem;
     transition: opacity 0.2s;
